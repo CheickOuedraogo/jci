@@ -1,0 +1,100 @@
+---
+import Base from "../../layouts/Base.astro";
+import MembershipForm from "../../components/MembershipForm.astro";
+import DonationButton from "../../components/DonationButton.astro";
+import { COPY } from "../../data/content";
+import { SITE, withBase } from "../../lib/site.config";
+
+const lang = "en";
+const t = COPY[lang];
+const current = "/en/join";
+const description = t.join.intro;
+---
+
+<Base
+  lang={lang}
+  current={current}
+  title={`${t.join.title} — JCI Yennèga Amazones Émergentes`}
+  description={description}
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">{t.join.eyebrow}</p>
+      <h1>{t.join.title}</h1>
+      <p class="lead">{t.join.intro}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split" style="align-items: stretch;">
+      <aside class="join-aside">
+        <div class="card card--tint">
+          <p class="card__tag">Criteria</p>
+          <h3>{t.join.intro}</h3>
+          <ul class="plain-list">
+            {t.join.criteria.map((criterion) => (
+              <li>{criterion}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="card fee-card">
+          <p class="card__tag">{t.join.feeLabel}</p>
+          <strong class="fee-amount">{t.join.feeAmount}</strong>
+          <p class="muted">{t.join.feeNote}</p>
+          <DonationButton lang={lang} label={t.join.donateAlt} classes="btn btn--gold" />
+          <a class="whatsapp-link" href={SITE.whatsapp} target="_blank" rel="noopener">
+            {t.join.whatsappAlt}
+          </a>
+        </div>
+      </aside>
+
+      <MembershipForm lang={lang} />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .join-aside {
+    display: grid;
+    gap: 1.5rem;
+    align-content: start;
+  }
+
+  .plain-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.65rem;
+  }
+
+  .plain-list li {
+    position: relative;
+    padding-left: 1.5rem;
+  }
+
+  .plain-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--c-blue-deep);
+    font-weight: 800;
+  }
+
+  .fee-card .fee-amount {
+    display: block;
+    font-family: var(--font-serif);
+    font-size: 2.2rem;
+    color: var(--c-ink);
+    line-height: 1.1;
+    margin-bottom: 0.4rem;
+  }
+
+  .whatsapp-link {
+    display: inline-block;
+    margin-top: 0.9rem;
+    font-weight: 700;
+    color: var(--c-blue-deep);
+  }
+</style>

@@ -1,0 +1,128 @@
+---
+import Base from "../../layouts/Base.astro";
+import DonationButton from "../../components/DonationButton.astro";
+import { COPY, PILLARS } from "../../data/content";
+import { withBase } from "../../lib/site.config";
+import mockup from "../../assets/mockup.webp";
+
+const lang = "en";
+const t = COPY[lang];
+const current = "/en/";
+const description = `${t.meta.tagline} ${t.home.title}.`;
+---
+
+<Base
+  lang={lang}
+  current={current}
+  title={`${t.home.title} — JCI Yennèga Amazones Émergentes`}
+  description={description}
+>
+  <section class="hero">
+    <div class="container hero__inner">
+      <div>
+        <p class="eyebrow">{t.home.eyebrow}</p>
+        <h1 class="hero__title">{t.home.title}</h1>
+        <p class="hero__hook">{t.home.hook}</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary btn--lg" href={withBase("/en/about")}>
+            {t.home.buttons.discover}
+          </a>
+          <a class="btn btn--ghost btn--lg" href={withBase("/en/join")}>
+            {t.home.buttons.join}
+          </a>
+          <DonationButton lang={lang} classes="btn btn--gold btn--lg" />
+        </div>
+      </div>
+
+      <div class="hero__visual">
+        <img src={mockup} alt={t.home.visualAlt} width="1280" height="853" />
+        <span class="hero__badge">Burkina Faso 🇧🇫</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sand">
+    <div class="container">
+      <div class="center">
+        <p class="eyebrow eyebrow--light">{t.home.pillarsEyebrow}</p>
+        <h2>{t.home.pillarsTitle}</h2>
+        <p class="muted">{t.home.pillarsIntro}</p>
+      </div>
+      <div class="grid grid--3" style="margin-top: 2.5rem;">
+        {
+          PILLARS.map((pillar, index) => (
+            <article class:list={["card", { "card--tint": index % 2 === 1 }]}>
+              <h3>{pillar.name[lang]}</h3>
+              <p class="muted">{pillar.desc[lang]}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container quote-band">
+      <blockquote>“{t.home.quote}”</blockquote>
+      <cite>{t.home.quoteAuthor}</cite>
+    </div>
+  </section>
+
+  <section class="section section--sky">
+    <div class="container">
+      <div class="center">
+        <p class="eyebrow eyebrow--light">{t.home.metricsEyebrow}</p>
+        <h2>{t.home.metricsTitle}</h2>
+      </div>
+      <div class="metrics" style="margin-top: 2.5rem;">
+        {
+          t.home.metrics.map((metric) => (
+            <div class="metric">
+              <strong>{metric.value}</strong>
+              <span>{metric.label}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">{t.home.aboutEyebrow}</p>
+        <h2>{t.home.aboutTitle}</h2>
+        <p>{t.home.aboutText}</p>
+        <a class="btn btn--ghost" href={withBase("/en/about")} style="margin-top: 0.5rem;">
+          {t.home.buttons.discover} →
+        </a>
+      </div>
+      <div class="grid">
+        <div class="card">
+          <p class="card__tag">Vision</p>
+          <h3>{t.about.visionTitle}</h3>
+          <p class="muted">{t.about.visionText}</p>
+        </div>
+        <div class="card card--tint">
+          <p class="card__tag">Mission</p>
+          <h3>{t.about.missionTitle}</h3>
+          <p class="muted">{t.about.missionText}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--navy">
+    <div class="container center">
+      <p class="eyebrow eyebrow--light">{t.home.ctaEyebrow}</p>
+      <h2>{t.home.ctaTitle}</h2>
+      <p style="max-width: 32em; margin: 0 auto 2rem;">{t.home.ctaBody}</p>
+      <div class="hero__actions" style="justify-content: center;">
+        <a class="btn btn--gold btn--lg" href={withBase("/en/join")}>
+          {t.home.buttons.join}
+        </a>
+        <DonationButton lang={lang} classes="btn btn--outline-light btn--lg" />
+      </div>
+    </div>
+  </section>
+</Base>

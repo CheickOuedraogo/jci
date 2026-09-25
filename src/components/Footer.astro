@@ -1,0 +1,85 @@
+---
+import { NAV_LINKS, SITE, SOCIALS, withBase } from "../lib/site.config";
+import { COPY } from "../data/content";
+
+const { lang = "fr" } = Astro.props;
+const t = COPY[lang];
+const links = NAV_LINKS[lang];
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a class="brand" href={withBase(lang === "fr" ? "/" : "/en/")}>
+        <img src={withBase("/logo.png")} alt="" width="54" height="auto" />
+        <span class="brand-text">
+          <strong>JCI Yennèga</strong>
+          <span>Amazones Émergentes</span>
+        </span>
+      </a>
+      <p>{t.footer.tagline}</p>
+      <div class="socials">
+        {
+          SOCIALS.map((social) => (
+            <a
+              class="social-link social-link--dark"
+              href={social.url}
+              aria-label={`${social.name} — ${social.handle}`}
+            >
+              {social.name}
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+    <div>
+      <h4>{t.footer.navTitle}</h4>
+      <ul class="footer-links">
+        {
+          links.map((link) => (
+            <li>
+              <a href={withBase(link.href)}>{link.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div>
+      <h4>{t.footer.contactTitle}</h4>
+      <ul class="footer-links">
+        <li>
+          <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+        </li>
+        <li>
+          <a href={SITE.whatsapp} target="_blank" rel="noopener">
+            {SITE.phoneDisplay}
+          </a>
+        </li>
+        <li>{SITE.address}</li>
+      </ul>
+      <h4 style="margin-top: 1.6rem;">{t.contact.donateTitle}</h4>
+      <a class="btn btn--gold btn--sm" href={withBase(lang === "fr" ? "/contact" : "/en/contact")}>
+        {t.contact.donateButton}
+      </a>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <span>{t.footer.rights}</span>
+    <span>{t.footer.credit}</span>
+  </div>
+</footer>
+
+<style>
+  .footer-brand .brand {
+    color: var(--c-cream);
+    margin-bottom: 1rem;
+  }
+
+  .footer-brand .brand img {
+    border-radius: 8px;
+    background: var(--c-white);
+  }
+</style>

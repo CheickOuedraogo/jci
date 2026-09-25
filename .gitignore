@@ -1,0 +1,20 @@
+# Dépendances & build
+node_modules/
+dist/
+.astro/
+
+# Secrets & fichiers locaux
+.env
+.env.*
+!.env.example
+*.local
+private/
+
+# Checklist locale — jamais publiée
+TODO.md
+
+# OS / éditeurs
+.DS_Store
+*.swp
+.idea/
+.vscode/

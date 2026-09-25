@@ -1,0 +1,55 @@
+---
+import Icon from "./Icon.astro";
+import { AXES, COPY } from "../data/content";
+import { withBase } from "../lib/site.config";
+
+const { lang = "fr" } = Astro.props;
+const t = COPY[lang];
+const ctaHref = withBase(lang === "fr" ? "/devenir-amazone" : "/en/join");
+---
+
+<div class="grid grid--3 axes-grid">
+  {
+    AXES.map((axe, index) => (
+      <article class:list={["card", { "card--tint": index % 2 === 1 }]}>
+        <div class="card__icon">
+          <Icon name={axe.icon as "briefcase" | "mic" | "shield"} />
+        </div>
+        <p class="card__tag">{axe.tag[lang]}</p>
+        <h3>{axe.name[lang]}</h3>
+        <p>{axe.desc[lang]}</p>
+        <ul>
+          {axe.points[lang].map((point) => (
+            <li>{point}</li>
+          ))}
+        </ul>
+        <a class="link-card" href={ctaHref} style="margin-top: 1.2rem; display: block;">
+          <span class="link-inline">{t.axes.cardCta} →</span>
+        </a>
+      </article>
+    ))
+  }
+</div>
+
+<style>
+  .axes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 820px) {
+    .axes-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .link-inline {
+    font-weight: 700;
+    color: var(--c-blue-deep);
+    border-bottom: 1.5px solid transparent;
+    transition: border-color 0.2s;
+  }
+
+  .card:hover .link-inline {
+    border-color: var(--c-blue-deep);
+  }
+</style>

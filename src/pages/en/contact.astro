@@ -1,0 +1,92 @@
+---
+import Base from "../../layouts/Base.astro";
+import DonationButton from "../../components/DonationButton.astro";
+import { COPY } from "../../data/content";
+import { SITE, SOCIALS } from "../../lib/site.config";
+
+const lang = "en";
+const t = COPY[lang];
+const current = "/en/contact";
+const description = t.contact.intro;
+---
+
+<Base
+  lang={lang}
+  current={current}
+  title={`Contact — JCI Yennèga Amazones Émergentes`}
+  description={description}
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">{t.contact.eyebrow}</p>
+      <h1>{t.contact.title}</h1>
+      <p class="lead">{t.contact.intro}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid grid--2">
+      <div class="stacked">
+        <div class="card">
+          <p class="card__tag">{t.contact.emailLabel}</p>
+          <p style="font-size: 1.1rem;">
+            <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+          </p>
+        </div>
+
+        <div class="card card--tint">
+          <p class="card__tag">{t.contact.phoneLabel}</p>
+          <p style="font-size: 1.1rem;">
+            <a href={SITE.whatsapp} target="_blank" rel="noopener">
+              {SITE.phoneDisplay}
+            </a>
+          </p>
+          <a class="btn btn--primary" href={SITE.whatsapp} target="_blank" rel="noopener">
+            {t.contact.whatsappButton}
+          </a>
+        </div>
+
+        <div class="card">
+          <p class="card__tag">{t.contact.addressLabel}</p>
+          <p style="font-size: 1.1rem;">{SITE.address}</p>
+          <p class="muted">{t.contact.mapNote}</p>
+        </div>
+      </div>
+
+      <div class="stacked">
+        <div class="card">
+          <p class="card__tag">{t.contact.followLabel}</p>
+          <h3>{t.contact.socialIntro}</h3>
+          <div class="socials">
+            {
+              SOCIALS.map((social) => (
+                <a class="social-link" href={social.url} aria-label={`${social.name} — ${social.handle}`}>
+                  {social.name}
+                </a>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="card donate-card">
+          <p class="eyebrow eyebrow--light">CinetPay</p>
+          <h2>{t.contact.donateTitle}</h2>
+          <p>{t.contact.donateBody}</p>
+          <DonationButton lang={lang} classes="btn btn--gold btn--lg" />
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .donate-card {
+    background: linear-gradient(160deg, var(--c-ink) 0%, var(--c-navy) 100%);
+    box-shadow: var(--shadow);
+  }
+
+  .donate-card h2,
+  .donate-card p {
+    color: var(--c-cream);
+  }
+</style>

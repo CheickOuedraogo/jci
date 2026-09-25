@@ -1,0 +1,72 @@
+---
+import { DONATION_URL, SITE } from "../lib/site.config";
+import { COPY } from "../data/content";
+
+const { lang = "fr", classes = "btn btn--gold btn--lg", label } = Astro.props;
+const t = COPY[lang].contact;
+const buttonLabel = label ?? t.donateButton;
+const hasLink = typeof DONATION_URL === "string" && DONATION_URL.trim() !== "";
+---
+
+{
+  hasLink ? (
+    <a class={classes} href={DONATION_URL} target="_blank" rel="noopener">
+      {buttonLabel}
+    </a>
+  ) : (
+    <>
+      <button class={classes} type="button" data-donate-trigger>
+        {buttonLabel}
+      </button>
+
+      <div class="dialog" data-donate-dialog hidden>
+        <div class="dialog__panel" role="dialog" aria-modal="true" aria-labelledby="donation-title">
+          <button type="button" class="dialog__close" data-donate-close aria-label={lang === "fr" ? "Fermer" : "Close"}>
+            ×
+          </button>
+          <span class="eyebrow">{lang === "fr" ? "CinetPay" : "Secure payment"}</span>
+          <h3 id="donation-title">{t.donateTitle}</h3>
+          <p>{t.donateBody}</p>
+          <p class="form-notice">{t.formPreparing}</p>
+          <a class="btn btn--gold" href={SITE.whatsapp} target="_blank" rel="noopener">
+            {t.whatsappButton}
+          </a>
+        </div>
+      </div>
+    </>
+  )
+}
+
+<style>
+  .dialog__panel .eyebrow {
+    margin-top: 0.2rem;
+  }
+</style>
+
+<script>
+  const trigger = document.querySelector("[data-donate-trigger]");
+  const dialog = document.querySelector("[data-donate-dialog]") as HTMLElement | null;
+  if (trigger && dialog) {
+    const closeBtn = dialog.querySelector("[data-donate-close]") as HTMLElement | null;
+
+    const open = () => {
+      dialog.hidden = false;
+      document.body.style.overflow = "hidden";
+      closeBtn?.focus();
+    };
+    const close = () => {
+      dialog.hidden = true;
+      document.body.style.overflow = "";
+      trigger.focus();
+    };
+
+    trigger.addEventListener("click", open);
+    closeBtn?.addEventListener("click", close);
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) close();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && !dialog.hidden) close();
+    });
+  }
+</script>

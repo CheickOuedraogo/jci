@@ -1,0 +1,108 @@
+---
+import { NAV_LINKS, SITE, altPath, withBase } from "../lib/site.config";
+import { COPY } from "../data/content";
+
+const { lang = "fr", current = "/" } = Astro.props;
+const t = COPY[lang];
+const alt = lang === "fr" ? "en" : "fr";
+const links = NAV_LINKS[lang].map((link) => ({
+  ...link,
+  href: withBase(link.href),
+  active: link.href === current,
+}));
+const altHref = withBase(altPath(current, lang));
+const joinHref = withBase(lang === "fr" ? "/devenir-amazone" : "/en/join");
+const navLabel = lang === "fr" ? "Navigation principale" : "Primary navigation";
+---
+
+<header class="site-header" data-header>
+  <div class="container header-inner">
+    <a class="brand" href={withBase(lang === "fr" ? "/" : "/en/")}>
+      <img src={withBase("/logo.png")} alt="" width="60" height="auto" />
+      <span class="brand-text">
+        <strong>JCI Yennèga</strong>
+        <span>Amazones Émergentes</span>
+      </span>
+    </a>
+
+    <nav class="nav-desktop" aria-label={navLabel}>
+      <ul>
+        {
+          links.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                aria-current={link.active ? "page" : undefined}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <a class="lang-switch" href={altHref} hreflang={alt}>
+        {alt.toUpperCase()}
+      </a>
+      <a class="btn btn--primary btn--sm" href={joinHref}>
+        {t.home.buttons.join}
+      </a>
+      <button
+        class="nav-toggle"
+        type="button"
+        data-nav-toggle
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+        aria-label={lang === "fr" ? "Ouvrir le menu" : "Open menu"}
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M4 7h16M4 12h16M4 17h12"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <nav class="nav-mobile" id="mobile-nav" data-mobile-nav aria-label={navLabel}>
+    <ul>
+      {
+        links.map((link) => (
+          <li>
+            <a href={link.href} aria-current={link.active ? "page" : undefined}>
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .brand img {
+    border-radius: 8px;
+    background: var(--c-white);
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector("[data-nav-toggle]");
+  const panel = document.querySelector("[data-mobile-nav]");
+  if (toggle && panel) {
+    const set = (open: boolean) => {
+      panel.dataset.open = String(open);
+      toggle.setAttribute("aria-expanded", String(open));
+    };
+    toggle.addEventListener("click", () => set(panel.dataset.open !== "true"));
+    document.addEventListener("click", (event) => {
+      const target = event.target as HTMLElement | null;
+      if (target && !target.closest(".site-header")) set(false);
+    });
+  }
+</script>

@@ -1,0 +1,73 @@
+---
+import Base from "../../layouts/Base.astro";
+import { COPY, CREED } from "../../data/content";
+import mockup from "../../assets/mockup.webp";
+
+const lang = "en";
+const t = COPY[lang];
+const current = "/en/about";
+const description = `${t.about.lede} ${t.about.body}`;
+---
+
+<Base
+  lang={lang}
+  current={current}
+  title={`About — JCI Yennèga Amazones Émergentes`}
+  description={description}
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">{t.about.eyebrow}</p>
+      <h1>{t.about.title}</h1>
+      <p class="lead">{t.about.lede}</p>
+      <p class="muted">{t.about.body}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">{t.about.timelineEyebrow}</p>
+        <h2>{t.about.timelineTitle}</h2>
+        <p>{t.about.timelineText}</p>
+      </div>
+      <figure style="margin: 0;">
+        <img src={mockup} alt={t.home.visualAlt} width="1280" height="853" />
+        <figcaption class="muted" style="font-size: 0.9rem; margin-top: 0.8rem;">
+          {t.about.visualCaption}
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section section--sand">
+    <div class="container grid grid--2">
+      <div class="card">
+        <p class="card__tag">Vision</p>
+        <h2>{t.about.visionTitle}</h2>
+        <p class="muted" style="font-size: 1.15rem;">{t.about.visionText}</p>
+      </div>
+      <div class="card card--tint">
+        <p class="card__tag">Mission</p>
+        <h2>{t.about.missionTitle}</h2>
+        <p class="muted" style="font-size: 1.15rem;">{t.about.missionText}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--navy">
+    <div class="container" style="max-width: 52rem;">
+      <p class="eyebrow eyebrow--light">{t.about.creedEyebrow}</p>
+      <h2>{t.about.creedTitle}</h2>
+      <p style="margin-bottom: 2rem;">{t.about.creedIntro}</p>
+      <ol class="creed-list">
+        {CREED.map((line) => (
+          <li>{line}</li>
+        ))}
+      </ol>
+      <p class="muted" style="color: rgba(255,250,242,.75); margin-top: 1.6rem; font-weight: 700;">
+        {t.about.creedSign}
+      </p>
+    </div>
+  </section>
+</Base>

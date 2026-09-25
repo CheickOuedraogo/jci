@@ -1,0 +1,43 @@
+---
+import Base from "../layouts/Base.astro";
+import AxesGrid from "../components/AxesGrid.astro";
+import { COPY } from "../data/content";
+import { withBase } from "../lib/site.config";
+
+const lang = "fr";
+const t = COPY[lang];
+const current = "/nos-axes";
+const description = t.axes.intro;
+---
+
+<Base
+  lang={lang}
+  current={current}
+  title={`${t.axes.title} — JCI Yennèga Amazones Émergentes`}
+  description={description}
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">{t.axes.eyebrow}</p>
+      <h1>{t.axes.title}</h1>
+      <p class="lead">{t.axes.intro}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <AxesGrid lang={lang} />
+    </div>
+  </section>
+
+  <section class="section section--navy">
+    <div class="container center">
+      <p class="eyebrow eyebrow--light">{t.axes.ctaEyebrow}</p>
+      <h2>{t.axes.ctaTitle}</h2>
+      <p style="max-width: 32em; margin: 0 auto 2rem;">{t.axes.ctaBody}</p>
+      <a class="btn btn--gold btn--lg" href={withBase("/devenir-amazone")}>
+        {t.axes.ctaButton}
+      </a>
+    </div>
+  </section>
+</Base>
