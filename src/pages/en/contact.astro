@@ -7,14 +7,13 @@ import { SITE, SOCIALS } from "../../lib/site.config";
 const lang = "en";
 const t = COPY[lang];
 const current = "/en/contact";
-const description = t.contact.intro;
 ---
 
 <Base
   lang={lang}
   current={current}
-  title={`Contact — JCI Yennèga Amazones Émergentes`}
-  description={description}
+  title={t.seo.contact.title}
+  description={t.seo.contact.description}
 >
   <section class="page-hero">
     <div class="container">
@@ -68,12 +67,14 @@ const description = t.contact.intro;
           </div>
         </div>
 
+        {/* Donations temporarily disabled:
         <div class="card donate-card">
           <p class="eyebrow eyebrow--light">CinetPay</p>
           <h2>{t.contact.donateTitle}</h2>
           <p>{t.contact.donateBody}</p>
-          <DonationButton lang={lang} classes="btn btn--gold btn--lg" />
+          <DonationButton lang={lang} classes="btn btn--donate btn--lg" />
         </div>
+        */}
       </div>
     </div>
   </section>

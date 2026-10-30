@@ -1,17 +1,16 @@
 ---
-import { NAV_LINKS, SITE, SOCIALS, withBase } from "../lib/site.config";
+import { SITE, SOCIALS, withBase } from "../lib/site.config";
 import { COPY } from "../data/content";
 
 const { lang = "fr" } = Astro.props;
 const t = COPY[lang];
-const links = NAV_LINKS[lang];
 ---
 
 <footer class="site-footer">
   <div class="container footer-grid">
     <div class="footer-brand">
       <a class="brand" href={withBase(lang === "fr" ? "/" : "/en/")}>
-        <img src={withBase("/logo.png")} alt="" width="54" height="auto" />
+        <img src={withBase("/logo.png")} alt="" width="120" height="82" />
         <span class="brand-text">
           <strong>JCI Yennèga</strong>
           <span>Amazones Émergentes</span>
@@ -34,19 +33,6 @@ const links = NAV_LINKS[lang];
     </div>
 
     <div>
-      <h4>{t.footer.navTitle}</h4>
-      <ul class="footer-links">
-        {
-          links.map((link) => (
-            <li>
-              <a href={withBase(link.href)}>{link.label}</a>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-
-    <div>
       <h4>{t.footer.contactTitle}</h4>
       <ul class="footer-links">
         <li>
@@ -59,16 +45,17 @@ const links = NAV_LINKS[lang];
         </li>
         <li>{SITE.address}</li>
       </ul>
+      {/* Dons désactivés temporairement :
       <h4 style="margin-top: 1.6rem;">{t.contact.donateTitle}</h4>
-      <a class="btn btn--gold btn--sm" href={withBase(lang === "fr" ? "/contact" : "/en/contact")}>
+      <a class="btn btn--donate btn--sm" href={withBase(lang === "fr" ? "/contact" : "/en/contact")}>
         {t.contact.donateButton}
       </a>
+      */}
     </div>
   </div>
 
   <div class="container footer-bottom">
     <span>{t.footer.rights}</span>
-    <span>{t.footer.credit}</span>
   </div>
 </footer>
 
@@ -79,7 +66,7 @@ const links = NAV_LINKS[lang];
   }
 
   .footer-brand .brand img {
-    border-radius: 8px;
-    background: var(--c-white);
+    height: auto;
+    width: 8.5rem;
   }
 </style>

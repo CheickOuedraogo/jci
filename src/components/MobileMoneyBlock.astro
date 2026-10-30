@@ -1,0 +1,147 @@
+---
+import { MOBILE_MONEY, DONOR_HOLDER } from "../lib/site.config";
+import { COPY } from "../data/content";
+
+const { lang = "fr" } = Astro.props;
+const t = COPY[lang].contact;
+
+/* un numero vide ne doit jamais apparaitre : on ne montre un numero que
+   s'il est complet, sinon on risque d'afficher un numero faux */
+const accounts = MOBILE_MONEY.filter((a) => a.number.trim() !== "");
+---
+
+{
+  accounts.length > 0 ? (
+    <div class="mm" data-mm-block>
+      <p class="mm__intro">{t.mmIntro}</p>
+
+      <ul class="mm__accounts">
+        {accounts.map((a) => (
+          <li class="mm__account" data-operator={a.id}>
+            <span class="mm__label">{a.label}</span>
+            <span class="mm__number">{a.number}</span>
+            <span class="mm__holder">
+              {t.mmHolder} : {DONOR_HOLDER}
+            </span>
+          </li>
+        ))}
+      </ul>
+
+      <p class="mm__free">
+        <span class="mm__free-dot" aria-hidden="true" />
+        {t.mmFree}
+      </p>
+
+      <div class="mm__confirm">
+        <p class="mm__confirm-title">{t.mmConfirmTitle}</p>
+        <p class="mm__confirm-text">{t.mmConfirm}</p>
+      </div>
+    </div>
+  ) : (
+    <p class="form-notice" data-mm-empty>
+      {t.mmNoNumber}
+    </p>
+  )
+}
+
+<style>
+  .mm {
+    text-align: left;
+  }
+
+  .mm__intro {
+    margin: 0 0 1rem;
+    color: var(--c-ink);
+  }
+
+  .mm__accounts {
+    list-style: none;
+    margin: 0 0 0.75rem;
+    padding: 0;
+    display: grid;
+    gap: 0.7rem;
+  }
+
+  /* par defaut on n'affiche aucun compte : l'operateur choisi par la
+     donatrice pilote l'affichage via data-active-operator. Sans cet
+     attribut (bloc affiche seul, hors formulaire) on montre tout. */
+  .mm__account {
+    display: none;
+  }
+
+  .mm:not([data-active-operator]) .mm__account {
+    display: grid;
+  }
+
+  .mm[data-active-operator="orange"] .mm__account[data-operator="orange"],
+  .mm[data-active-operator="moov"] .mm__account[data-operator="moov"] {
+    display: grid;
+  }
+
+  .mm__account {
+    gap: 0.15rem;
+    padding: 0.8rem 1rem;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(10, 28, 61, 0.12);
+    background: var(--c-sky);
+  }
+
+  /* le numero doit sauter aux yeux : c'est la seule info actionnable */
+  .mm__number {
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    color: var(--c-ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .mm__label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--c-azure-text);
+  }
+
+  .mm__holder {
+    font-size: 0.85rem;
+    color: var(--c-ink);
+    opacity: 0.78;
+  }
+
+  .mm__free {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 0 0 1.1rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--c-azure-text);
+  }
+
+  .mm__free-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--c-azure);
+  }
+
+  .mm__confirm {
+    padding: 0.9rem 1.1rem;
+    border-radius: var(--radius-sm);
+    background: rgba(5, 139, 209, 0.1);
+    border: 1px solid rgba(5, 139, 209, 0.32);
+  }
+
+  .mm__confirm-title {
+    margin: 0 0 0.25rem;
+    font-weight: 700;
+    color: var(--c-azure-text);
+  }
+
+  .mm__confirm-text {
+    margin: 0;
+    font-size: 0.92rem;
+    color: var(--c-ink);
+  }
+</style>

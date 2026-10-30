@@ -1,19 +1,19 @@
 ---
+import { Image } from "astro:assets";
 import Base from "../layouts/Base.astro";
 import { COPY, CREED } from "../data/content";
-import mockup from "../assets/mockup.webp";
+import teamPhoto from "../assets/team-1.jpg";
 
 const lang = "fr";
 const t = COPY[lang];
 const current = "/a-propos";
-const description = `${t.about.lede} ${t.about.body}`;
 ---
 
 <Base
   lang={lang}
   current={current}
-  title={`À propos — JCI Yennèga Amazones Émergentes`}
-  description={description}
+  title={t.seo.about.title}
+  description={t.seo.about.description}
 >
   <section class="page-hero">
     <div class="container">
@@ -32,7 +32,12 @@ const description = `${t.about.lede} ${t.about.body}`;
         <p>{t.about.timelineText}</p>
       </div>
       <figure style="margin: 0;">
-        <img src={mockup} alt={t.home.visualAlt} width="1280" height="853" />
+        <Image
+          src={teamPhoto}
+          alt={t.home.visualAlt}
+          widths={[640, 960, 1280]}
+          sizes="(min-width: 900px) 46vw, 92vw"
+        />
         <figcaption class="muted" style="font-size: 0.9rem; margin-top: 0.8rem;">
           {t.about.visualCaption}
         </figcaption>
@@ -40,7 +45,7 @@ const description = `${t.about.lede} ${t.about.body}`;
     </div>
   </section>
 
-  <section class="section section--sand">
+  <section class="section section--tint">
     <div class="container grid grid--2">
       <div class="card">
         <p class="card__tag">Vision</p>
@@ -61,7 +66,7 @@ const description = `${t.about.lede} ${t.about.body}`;
       <h2>{t.about.creedTitle}</h2>
       <p style="margin-bottom: 2rem;">{t.about.creedIntro}</p>
       <ol class="creed-list">
-        {CREED.map((line) => (
+        {CREED[lang].map((line) => (
           <li>{line}</li>
         ))}
       </ol>

@@ -1,62 +1,58 @@
 ---
+import { Image } from "astro:assets";
 import Base from "../layouts/Base.astro";
 import DonationButton from "../components/DonationButton.astro";
-import { COPY, PILLARS } from "../data/content";
+import { COPY } from "../data/content";
+import AxesGrid from "../components/AxesGrid.astro";
 import { withBase } from "../lib/site.config";
-import mockup from "../assets/mockup.webp";
+import heroPhoto from "../assets/hero-bg.jpg";
 
 const lang = "fr";
 const t = COPY[lang];
 const current = "/";
-const description = `${t.meta.tagline} ${t.home.title}.`;
 ---
 
 <Base
   lang={lang}
   current={current}
-  title={`${t.home.title} — JCI Yennèga Amazones Émergentes`}
-  description={description}
+  title={t.seo.home.title}
+  description={t.seo.home.description}
 >
   <section class="hero">
+    <Image
+      class="hero__bg"
+      src={heroPhoto}
+      alt={t.home.visualAlt}
+      widths={[768, 1200, 1600]}
+      sizes="100vw"
+      loading="eager"
+    />
     <div class="container hero__inner">
-      <div>
-        <p class="eyebrow">{t.home.eyebrow}</p>
+      <div class="hero__panel">
         <h1 class="hero__title">{t.home.title}</h1>
         <p class="hero__hook">{t.home.hook}</p>
         <div class="hero__actions">
-          <a class="btn btn--primary btn--lg" href={withBase("/a-propos")}>
-            {t.home.buttons.discover}
+          <a class="btn btn--accent btn--lg" href={withBase("/nos-axes")}>
+            {t.home.buttons.acts}
           </a>
-          <a class="btn btn--ghost btn--lg" href={withBase("/devenir-amazone")}>
+          <a class="btn btn--outline-light btn--lg" href={withBase("/devenir-amazone")}>
             {t.home.buttons.join}
           </a>
-          <DonationButton lang={lang} classes="btn btn--gold btn--lg" />
+          {/* <DonationButton lang={lang} classes="btn btn--donate btn--lg" /> */}
         </div>
-      </div>
-
-      <div class="hero__visual">
-        <img src={mockup} alt={t.home.visualAlt} width="1280" height="853" />
-        <span class="hero__badge">Burkina Faso 🇧🇫</span>
       </div>
     </div>
   </section>
 
-  <section class="section section--sand">
+  <section class="section section--tint">
     <div class="container">
       <div class="center">
-        <p class="eyebrow eyebrow--light">{t.home.pillarsEyebrow}</p>
+        <p class="eyebrow">{t.home.pillarsEyebrow}</p>
         <h2>{t.home.pillarsTitle}</h2>
         <p class="muted">{t.home.pillarsIntro}</p>
       </div>
-      <div class="grid grid--3" style="margin-top: 2.5rem;">
-        {
-          PILLARS.map((pillar, index) => (
-            <article class:list={["card", { "card--tint": index % 2 === 1 }]}>
-              <h3>{pillar.name[lang]}</h3>
-              <p class="muted">{pillar.desc[lang]}</p>
-            </article>
-          ))
-        }
+      <div style="margin-top: 3rem;">
+        <AxesGrid lang={lang} />
       </div>
     </div>
   </section>
@@ -71,7 +67,7 @@ const description = `${t.meta.tagline} ${t.home.title}.`;
   <section class="section section--sky">
     <div class="container">
       <div class="center">
-        <p class="eyebrow eyebrow--light">{t.home.metricsEyebrow}</p>
+        <p class="eyebrow">{t.home.metricsEyebrow}</p>
         <h2>{t.home.metricsTitle}</h2>
       </div>
       <div class="metrics" style="margin-top: 2.5rem;">
@@ -126,17 +122,11 @@ const description = `${t.meta.tagline} ${t.home.title}.`;
       <h2>{t.home.ctaTitle}</h2>
       <p style="max-width: 32em; margin: 0 auto 2rem;">{t.home.ctaBody}</p>
       <div class="hero__actions" style="justify-content: center;">
-        <a class="btn btn--gold btn--lg" href={withBase("/devenir-amazone")}>
+        <a class="btn btn--accent btn--lg" href={withBase("/devenir-amazone")}>
           {t.home.buttons.join}
         </a>
-        <DonationButton lang={lang} classes="btn btn--outline-light btn--lg" />
+        {/* <DonationButton lang={lang} classes="btn btn--donate btn--lg" /> */}
       </div>
     </div>
   </section>
 </Base>
-
-<style>
-  .hero__badge {
-    white-space: nowrap;
-  }
-</style>

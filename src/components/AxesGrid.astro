@@ -3,53 +3,221 @@ import Icon from "./Icon.astro";
 import { AXES, COPY } from "../data/content";
 import { withBase } from "../lib/site.config";
 
-const { lang = "fr" } = Astro.props;
+const { lang = "fr", showPoints = true } = Astro.props;
 const t = COPY[lang];
 const ctaHref = withBase(lang === "fr" ? "/devenir-amazone" : "/en/join");
+/* une teinte par axe : sert a la barre et au chiffre geant (decoratifs) */
+const ACCENTS = ["#058bd1", "#4dafcb", "#0c4b7e"];
 ---
 
-<div class="grid grid--3 axes-grid">
+<ul class="axes">
   {
     AXES.map((axe, index) => (
-      <article class:list={["card", { "card--tint": index % 2 === 1 }]}>
-        <div class="card__icon">
-          <Icon name={axe.icon as "briefcase" | "mic" | "shield"} />
-        </div>
-        <p class="card__tag">{axe.tag[lang]}</p>
-        <h3>{axe.name[lang]}</h3>
-        <p>{axe.desc[lang]}</p>
-        <ul>
-          {axe.points[lang].map((point) => (
-            <li>{point}</li>
-          ))}
-        </ul>
-        <a class="link-card" href={ctaHref} style="margin-top: 1.2rem; display: block;">
-          <span class="link-inline">{t.axes.cardCta} →</span>
+      <li class="axis" style={`--axis: ${ACCENTS[index % ACCENTS.length]}`}>
+        <span class="axis__num" aria-hidden="true">
+          {String(index + 1).padStart(2, "0")}
+        </span>
+
+        <span class="axis__icon">
+          <Icon name={axe.icon as "growth" | "megaphone" | "shield-heart"} />
+        </span>
+
+        <p class="axis__tag">{axe.tag[lang]}</p>
+        <h3 class="axis__title">{axe.name[lang]}</h3>
+        <p class="axis__desc">{axe.desc[lang]}</p>
+
+        {
+          showPoints && (
+            <ul class="axis__points">
+              {axe.points[lang].map((point) => (
+                <li>{point}</li>
+              ))}
+            </ul>
+          )
+        }
+
+        <a class="axis__cta" href={ctaHref}>
+          {t.axes.cardCta}
+          <span class="axis__arrow" aria-hidden="true">
+            &rarr;
+          </span>
         </a>
-      </article>
+      </li>
     ))
   }
-</div>
+</ul>
 
 <style>
-  .axes-grid {
+  .axes {
+    display: grid;
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
   }
 
-  @media (min-width: 820px) {
-    .axes-grid {
+  @media (min-width: 860px) {
+    .axes {
       grid-template-columns: repeat(3, 1fr);
     }
   }
 
-  .link-inline {
-    font-weight: 700;
-    color: var(--c-blue-deep);
-    border-bottom: 1.5px solid transparent;
-    transition: border-color 0.2s;
+  .axis {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--c-white);
+    border: 1px solid var(--c-ice);
+    border-radius: 1.25rem;
+    padding: 2.25rem 1.75rem 1.5rem;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease),
+      border-color 0.35s var(--ease);
   }
 
-  .card:hover .link-inline {
-    border-color: var(--c-blue-deep);
+  /* barre d'accent : elle se deploie au survol */
+  .axis::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 4px;
+    background: var(--axis);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.45s var(--ease);
+  }
+
+  .axis:hover {
+    transform: translateY(-6px);
+    border-color: transparent;
+    box-shadow: 0 22px 50px rgba(10, 28, 61, 0.12);
+  }
+
+  .axis:hover::before {
+    transform: scaleX(1);
+  }
+
+  /* chiffre geant en filigrane */
+  .axis__num {
+    position: absolute;
+    top: 0.35rem;
+    right: 1rem;
+    font-family: var(--font-serif);
+    font-size: 5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--axis);
+    opacity: 0.12;
+    transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+  }
+
+  .axis:hover .axis__num {
+    opacity: 0.2;
+    transform: translateY(-4px);
+  }
+
+  /* la tuile reste marine/azur : le cyan en aplat donnerait
+     2.2:1 avec l'icone blanche, sous le seuil de 3:1 */
+  .axis__icon {
+    display: grid;
+    place-items: center;
+    width: 3.4rem;
+    height: 3.4rem;
+    margin-bottom: 1.35rem;
+    border-radius: 14px;
+    background: linear-gradient(140deg, var(--c-azure) 0%, var(--c-navy) 100%);
+    color: var(--c-white);
+    box-shadow: 0 10px 20px rgba(5, 139, 209, 0.28);
+  }
+
+  .axis__tag {
+    margin: 0 0 0.55rem;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--c-azure-text);
+  }
+
+  .axis__title {
+    margin: 0 0 0.7rem;
+    font-size: 1.3rem;
+    line-height: 1.25;
+    color: var(--c-ink);
+  }
+
+  .axis__desc {
+    margin: 0;
+    color: var(--c-ink-soft);
+  }
+
+  .axis__points {
+    margin: 1.15rem 0 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--c-ice);
+    padding-top: 1.15rem;
+  }
+
+  .axis__points li {
+    position: relative;
+    margin-bottom: 0.5rem;
+    padding-left: 1.6rem;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: var(--c-ink-soft);
+  }
+
+  .axis__points li:last-child {
+    margin-bottom: 0;
+  }
+
+  /* coche dessinee : currentColor suit le texte, donc le contraste est celui du texte */
+  .axis__points li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.32em;
+    width: 0.75rem;
+    height: 0.42rem;
+    border-left: 2px solid var(--c-azure-text);
+    border-bottom: 2px solid var(--c-azure-text);
+    transform: rotate(-45deg);
+  }
+
+  /* margin-top:auto = le lien se cale en bas, cartes de meme hauteur */
+  .axis__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: auto;
+    padding-top: 1.5rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--c-azure-text);
+    text-decoration: none;
+  }
+
+  /* lien etire : toute la carte est cliquable, pas seulement le libelle */
+  .axis__cta::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
+  .axis__cta:focus-visible {
+    outline: 2px solid var(--c-azure-text);
+    outline-offset: 4px;
+    border-radius: 6px;
+  }
+
+  .axis__arrow {
+    transition: transform 0.3s var(--ease);
+  }
+
+  .axis:hover .axis__arrow {
+    transform: translateX(5px);
   }
 </style>

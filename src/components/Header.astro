@@ -18,7 +18,7 @@ const navLabel = lang === "fr" ? "Navigation principale" : "Primary navigation";
 <header class="site-header" data-header>
   <div class="container header-inner">
     <a class="brand" href={withBase(lang === "fr" ? "/" : "/en/")}>
-      <img src={withBase("/logo.png")} alt="" width="60" height="auto" />
+      <img src={withBase("/logo-mark.png")} alt="" width="60" height="34" />
       <span class="brand-text">
         <strong>JCI Yennèga</strong>
         <span>Amazones Émergentes</span>
@@ -83,13 +83,6 @@ const navLabel = lang === "fr" ? "Navigation principale" : "Primary navigation";
     </ul>
   </nav>
 </header>
-
-<style>
-  .brand img {
-    border-radius: 8px;
-    background: var(--c-white);
-  }
-</style>
 
 <script>
   const toggle = document.querySelector("[data-nav-toggle]");

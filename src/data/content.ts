@@ -1,44 +1,23 @@
 import type { Lang } from "../lib/site.config";
 
-export const CREED = [
-  "That faith in God gives meaning and purpose to human life",
-  "That the brotherhood of man transcends the sovereignty of nations",
-  "That economic justice can best be won by free men through free enterprise",
-  "That government should be of laws rather than of men",
-  "That earth’s great treasure lies in human personality",
-  "And that service to humanity is the best work of life",
-];
-
-export const PILLARS: {
-  id: string;
-  name: Record<Lang, string>;
-  desc: Record<Lang, string>;
-}[] = [
-  {
-    id: "guerriere",
-    name: { fr: "La Guerrière", en: "The Warrior" },
-    desc: {
-      fr: "Renforcer la confiance, le leadership et l'engagement civique des femmes.",
-      en: "Build confidence, leadership and civic engagement in women.",
-    },
-  },
-  {
-    id: "entrepreneure",
-    name: { fr: "L'Entrepreneure", en: "The Entrepreneur" },
-    desc: {
-      fr: "Soutenir l'autonomie économique par la formation et le mentorat d'entrepreneures.",
-      en: "Support economic independence through training and mentorship for women entrepreneurs.",
-    },
-  },
-  {
-    id: "protectrice",
-    name: { fr: "La Protectrice", en: "The Protector" },
-    desc: {
-      fr: "Promouvoir la santé, la sécurité et la protection des enfants et des familles.",
-      en: "Promote health, safety and the protection of children and families.",
-    },
-  },
-];
+export const CREED: Record<Lang, string[]> = {
+  en: [
+    "That faith in God gives meaning and purpose to human life",
+    "That the brotherhood of man transcends the sovereignty of nations",
+    "That economic justice can best be won by free men through free enterprise",
+    "That government should be of laws rather than of men",
+    "That earth’s great treasure lies in human personality",
+    "And that service to humanity is the best work of life",
+  ],
+  fr: [
+    "Que la foi en Dieu donne un sens et un but à la vie humaine",
+    "Que la fraternité entre les hommes transcende la souveraineté des nations",
+    "Que la justice économique s'obtient mieux par des hommes libres, dans une entreprise libre",
+    "Que le gouvernement doit être fait de lois et non d'hommes",
+    "Que les grands trésors de la terre résident dans la personnalité humaine",
+    "Et que le service de l'humanité est la meilleure œuvre de la vie",
+  ],
+};
 
 export const AXES: {
   id: string;
@@ -50,7 +29,7 @@ export const AXES: {
 }[] = [
   {
     id: "entrepreneurial",
-    icon: "briefcase",
+    icon: "growth",
     tag: { fr: "Axe 1", en: "Axis 1" },
     name: {
       fr: "Leadership Entrepreneurial Féminin",
@@ -77,7 +56,7 @@ export const AXES: {
   },
   {
     id: "capacites",
-    icon: "mic",
+    icon: "megaphone",
     tag: { fr: "Axe 2", en: "Axis 2" },
     name: { fr: "Renforcement des Capacités", en: "Capacity Building" },
     desc: {
@@ -91,7 +70,7 @@ export const AXES: {
   },
   {
     id: "protection",
-    icon: "shield",
+    icon: "shield-heart",
     tag: { fr: "Axe 3", en: "Axis 3" },
     name: { fr: "Protection des Personnes Vulnérables", en: "Protection of Vulnerable People" },
     desc: {
@@ -117,12 +96,39 @@ const fr = {
   meta: {
     tagline: "La première Organisation Locale 100% féminine de JCI Burkina Faso.",
   },
+  seo: {
+    home: {
+      title: "JCI Yennèga Amazones Émergentes | Leadership Féminin & Entrepreneuriat au Burkina Faso",
+      description: "Première Organisation Locale 100% féminine de JCI Burkina Faso. Nous révélons le leadership, l'entrepreneuriat et l'impact positif des jeunes femmes de 18 à 40 ans.",
+    },
+    about: {
+      title: "À propos de JCI Yennèga | Organisation Locale 100% Féminine JCI Burkina Faso",
+      description: "Découvrez l'histoire de JCI Yennèga Amazones Émergentes, inspirée par la princesse Yennenga. Notre vision, notre mission et notre engagement pour le leadership féminin.",
+    },
+    axes: {
+      title: "Nos Axes d'Action : Entrepreneuriat, Leadership & Protection | JCI Yennèga",
+      description: "Entreprendre, grandir, protéger : découvrez nos programmes d'incubation, formations au leadership et actions communautaires au Burkina Faso.",
+    },
+    join: {
+      title: "Devenir Amazone | Rejoindre JCI Yennèga Amazones Émergentes",
+      description: "Femme de 18 à 40 ans résidant au Burkina Faso ? Rejoins JCI Yennèga pour développer ton leadership, entreprendre et avoir un impact durable.",
+    },
+    contact: {
+      title: "Contact & Siège à Ouagadougou | JCI Yennèga Amazones Émergentes",
+      description: "Contactez JCI Yennèga Amazones Émergentes à Ouagadougou par email, téléphone ou WhatsApp. Échangeons sur vos projets, adhésions et partenariats.",
+    },
+  },
   home: {
     eyebrow: "JCI Burkina Faso · Organisation Locale 100% féminine",
     title: "Nous sommes les Amazones Émergentes",
     hook: "La première Organisation Locale 100% féminine de JCI Burkina Faso. Nous révélons la guerrière, l'entrepreneure et la protectrice en chaque jeune femme.",
-    visualAlt: "Aperçu du site — versions bureautique et mobile",
-    buttons: { discover: "Nous Découvrir", join: "Rejoins-nous", donate: "Faire un Don" },
+    visualAlt: "Des membres de JCI Yennèga Amazones Émergentes réunies lors d'une activité",
+    buttons: {
+      discover: "Nous Découvrir",
+      acts: "Nos Actions",
+      join: "Rejoins-nous",
+      donate: "Faire un Don",
+    },
     pillarsEyebrow: "Nos trois piliers",
     pillarsTitle: "Révéler la guerrière, l'entrepreneure et la protectrice",
     pillarsIntro: "Trois engagements pour révéler le potentiel de chaque femme.",
@@ -147,7 +153,7 @@ const fr = {
     title: "JCI Yennèga Amazones Émergentes",
     lede: "JCI Yennèga Amazones Émergentes est née en 2026 de la vision du Président Mondial JCI : ne plus laisser les femmes en marge du leadership.",
     body: "Inspirées par la Princesse Yennenga, fondatrice du Royaume Mossi, nous sommes des femmes de 18 à 40 ans qui croyons que chaque femme peut embrasser son potentiel, définir son futur et changer le monde.",
-    visualCaption: "Une vision, deux écrans : un mouvement pensé pour le Burkina Faso numérique.",
+    visualCaption: "Chaque activité est une rencontre : c'est là que le leadership se transmet.",
     visionTitle: "Notre Vision",
     visionText: "Être le principal réseau mondial de jeunes leaders.",
     missionTitle: "Notre Mission",
@@ -163,7 +169,7 @@ const fr = {
   axes: {
     eyebrow: "Nos 3 axes stratégiques",
     title: "Trois engagements pour révéler le potentiel des femmes",
-    intro: "Entreprendre, grandir, protéger : chaque axe se tranforme en actions concrètes au service des femmes et des communautés du Burkina Faso.",
+    intro: "Entreprendre, grandir, protéger : chaque axe se transforme en actions concrètes au service des femmes et des communautés du Burkina Faso.",
     cardCta: "Agir avec nous",
     ctaEyebrow: "Passe à l'action",
     ctaTitle: "Deviens l'une de nous",
@@ -203,6 +209,11 @@ const fr = {
     sending: "Envoi en cours…",
     success: "Ta candidature a bien été envoyée. Nous reviendrons vers toi très vite.",
     error: "Une erreur est survenue. Réessaie, ou écris-nous sur WhatsApp.",
+    errorQuota:
+      "Nos inscriptions sont momentanément saturées : nous rencontrons desdifficultés techniques. Écris-nous sur WhatsApp et nous traiterons ta candidature sans attendre.",
+    errorNetwork:
+      "Impossible de nous écrire depuis ce navigateur. Vérifie ta connexion internet, ou passe par WhatsApp.",
+    whatsappFallback: "Passer par WhatsApp",
     whatsappAlt: "Postuler via WhatsApp",
     donateAlt: "Payer la cotisation",
   },
@@ -220,15 +231,47 @@ const fr = {
     donateButton: "Faire un Don",
     whatsappButton: "Écrire sur WhatsApp",
     formPreparing: "Le lien de paiement sécurisé sera bientôt disponible. En attendant, écris-nous directement sur WhatsApp.",
+    donateEyebrowMm: "Orange Money · Moov Money",
+    /* le transfert direct laisse une seule information manquante : le nom de
+       la donatrice. Le SMS de l'operateur fournit deja montant + numero. */
+    declareTitle: "1. Déclare ton don",
+    declareIntro:
+      "Renseigne ces informations, on t'affiche ensuite le numéro vers lequel transférer.",
+    declareFields: {
+      name: "Ton nom",
+      amount: "Montant du don",
+      operator: "Ton opérateur",
+      phone: "Ton numéro (facultatif)",
+      message: "Message (facultatif)",
+    },
+    declareSubmit: "Envoyer ma déclaration",
+    declareSending: "Envoi en cours…",
+    declareSuccess: "Déclaration reçue, merci !",
+    declareSuccessHint:
+      "Effectue maintenant ton transfert vers le numéro ci-dessous, puis garde la référence : elle nous permet de te remercrier précisément.",
+    declareError: "Une erreur est survenue. Réessaie, ou écris-nous sur WhatsApp.",
+    declareErrorQuota:
+      "Nos envois sont momentanément saturés : difficultés techniques. Écris-nous sur WhatsApp, on enregistre ton don sans attendre.",
+    declareErrorNetwork:
+      "Impossible d'envoyer depuis ce navigateur. Vérifie ta connexion, ou passe par WhatsApp.",
+    declareMinAmount: "Minimum",
+    declareNotConfigured:
+      "Le service de déclaration sera actif dès la configuration de la clé Web3Forms. En attendant, écris-nous directement sur WhatsApp.",
+    mmIntro: "Transfère au montant de ton choix vers ce numéro :",
+    mmHolder: "Au nom de",
+    mmFree: "Montant libre",
+    mmConfirmTitle: "2. Effectue ton transfert",
+    mmConfirm:
+      "Après l'envoi, tu peux nous écrire sur WhatsApp : nous accusons réception et nous remercions chaque donatrice nominativement.",
+    mmNoNumber:
+      "Aucun numéro n'est encore configuré. Écris-nous sur WhatsApp, nous te transmettons les instructions de paiement.",
     mapNote: "Ouagadougou, Burkina Faso",
   },
   footer: {
     tagline: "La première Organisation Locale 100% féminine de JCI Burkina Faso. Nous révélons la guerrière, l'entrepreneure et la protectrice en chaque femme.",
-    navTitle: "Naviguer",
     contactTitle: "Nous contacter",
     followTitle: "Suivez-nous",
     rights: "© 2026 JCI Yennèga Amazones Émergentes. Tous droits réservés.",
-    credit: "Site 100% gratuit, hébergé sur GitHub Pages.",
   },
 };
 
@@ -236,12 +279,39 @@ const en: typeof fr = {
   meta: {
     tagline: "The first 100% women-led Local Organization of JCI Burkina Faso.",
   },
+  seo: {
+    home: {
+      title: "JCI Yennèga Emerging Amazons | Women Leadership & Entrepreneurship in Burkina Faso",
+      description: "The first 100% women-led Local Organization of JCI Burkina Faso. Empowering young women aged 18 to 40 to lead, innovate, and create positive change.",
+    },
+    about: {
+      title: "About JCI Yennèga | 100% Women-Led Organization in JCI Burkina Faso",
+      description: "Discover the story of JCI Yennèga Emerging Amazons, inspired by Princess Yennenga. Our vision, mission, and creed for female leadership.",
+    },
+    axes: {
+      title: "Our Action Pillars : Entrepreneurship, Leadership & Protection | JCI Yennèga",
+      description: "Build, grow, protect: explore our business incubator, leadership workshops, and community protection programs in Burkina Faso.",
+    },
+    join: {
+      title: "Become an Amazone | Join JCI Yennèga Emerging Amazons",
+      description: "Are you a woman aged 18 to 40 living in Burkina Faso? Apply to join JCI Yennèga and unleash your potential as an impactful leader.",
+    },
+    contact: {
+      title: "Contact Us & Headquarters in Ouagadougou | JCI Yennèga Emerging Amazons",
+      description: "Get in touch with JCI Yennèga Emerging Amazons in Ouagadougou via email, phone, or WhatsApp for memberships, inquiries, and partnerships.",
+    },
+  },
   home: {
     eyebrow: "JCI Burkina Faso · 100% women-led Local Organization",
     title: "We Are The Emerging Amazons",
     hook: "The first 100% women-led Local Organization of JCI Burkina Faso. We unleash the warrior, the entrepreneur and the protector in every young woman.",
-    visualAlt: "Website preview — desktop and mobile",
-    buttons: { discover: "Discover Us", join: "Join Us", donate: "Donate" },
+    visualAlt: "JCI Yennèga Amazones Émergentes members taking part in an activity",
+    buttons: {
+      discover: "Discover Us",
+      acts: "Our Programs",
+      join: "Join Us",
+      donate: "Donate",
+    },
     pillarsEyebrow: "Our three pillars",
     pillarsTitle: "Unleash the warrior, the entrepreneur and the protector",
     pillarsIntro: "Three commitments to unveil every woman's potential.",
@@ -266,7 +336,7 @@ const en: typeof fr = {
     title: "JCI Yennèga Amazones Émergentes",
     lede: "Founded in 2026 following the World President's call to boost female leadership in Burkina Faso.",
     body: "Inspired by Princess Yennenga, we empower women aged 18-40 to lead, innovate and create positive change.",
-    visualCaption: "One vision, two screens: a movement designed for the digital Burkina Faso.",
+    visualCaption: "Every activity is a meeting place — that is where leadership is passed on.",
     visionTitle: "Our Vision",
     visionText: "To be the leading global network of young leaders.",
     missionTitle: "Our Mission",
@@ -322,6 +392,11 @@ const en: typeof fr = {
     sending: "Sending…",
     success: "Your application has been sent. We will get back to you very soon.",
     error: "Something went wrong. Please try again, or message us on WhatsApp.",
+    errorQuota:
+      "Our application system is temporarily at capacity due to technical difficulties. Message us on WhatsApp and we will process your application right away.",
+    errorNetwork:
+      "We could not reach our form from this browser. Check your internet connection, or use WhatsApp instead.",
+    whatsappFallback: "Switch to WhatsApp",
     whatsappAlt: "Apply via WhatsApp",
     donateAlt: "Pay the membership fee",
   },
@@ -339,15 +414,45 @@ const en: typeof fr = {
     donateButton: "Donate",
     whatsappButton: "Write on WhatsApp",
     formPreparing: "The secure payment link will be available soon. Meanwhile, write to us directly on WhatsApp.",
+    donateEyebrowMm: "Orange Money · Moov Money",
+    declareTitle: "1. Declare your gift",
+    declareIntro:
+      "Fill in these details and we will show you the number to transfer to.",
+    declareFields: {
+      name: "Your name",
+      amount: "Gift amount",
+      operator: "Your operator",
+      phone: "Your number (optional)",
+      message: "Message (optional)",
+    },
+    declareSubmit: "Send my declaration",
+    declareSending: "Sending…",
+    declareSuccess: "Declaration received, thank you!",
+    declareSuccessHint:
+      "Now make your transfer to the number below and keep the reference: it lets us thank you accurately.",
+    declareError: "Something went wrong. Try again, or message us on WhatsApp.",
+    declareErrorQuota:
+      "Our submissions are temporarily saturated: technical difficulties. Message us on WhatsApp and we will record your gift right away.",
+    declareErrorNetwork:
+      "We could not send from this browser. Check your connection, or switch to WhatsApp.",
+    declareMinAmount: "Minimum",
+    declareNotConfigured:
+      "The declaration service will be live once the Web3Forms key is configured. Meanwhile, message us directly on WhatsApp.",
+    mmIntro: "Transfer any amount you wish to this number:",
+    mmHolder: "Account name",
+    mmFree: "Any amount",
+    mmConfirmTitle: "2. Make your transfer",
+    mmConfirm:
+      "Once sent, you can message us on WhatsApp: we acknowledge receipt and thank every donor by name.",
+    mmNoNumber:
+      "No number is configured yet. Message us on WhatsApp and we will send you the payment instructions.",
     mapNote: "Ouagadougou, Burkina Faso",
   },
   footer: {
     tagline: "The first 100% women-led Local Organization of JCI Burkina Faso. We unleash the warrior, the entrepreneur and the protector in every woman.",
-    navTitle: "Navigate",
     contactTitle: "Contact us",
     followTitle: "Follow us",
     rights: "© 2026 JCI Yennèga Amazones Émergentes. All rights reserved.",
-    credit: "100% free website, hosted on GitHub Pages.",
   },
 };
 

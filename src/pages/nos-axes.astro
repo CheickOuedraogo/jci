@@ -7,14 +7,13 @@ import { withBase } from "../lib/site.config";
 const lang = "fr";
 const t = COPY[lang];
 const current = "/nos-axes";
-const description = t.axes.intro;
 ---
 
 <Base
   lang={lang}
   current={current}
-  title={`${t.axes.title} — JCI Yennèga Amazones Émergentes`}
-  description={description}
+  title={t.seo.axes.title}
+  description={t.seo.axes.description}
 >
   <section class="page-hero">
     <div class="container">
@@ -35,7 +34,7 @@ const description = t.axes.intro;
       <p class="eyebrow eyebrow--light">{t.axes.ctaEyebrow}</p>
       <h2>{t.axes.ctaTitle}</h2>
       <p style="max-width: 32em; margin: 0 auto 2rem;">{t.axes.ctaBody}</p>
-      <a class="btn btn--gold btn--lg" href={withBase("/devenir-amazone")}>
+      <a class="btn btn--accent btn--lg" href={withBase("/devenir-amazone")}>
         {t.axes.ctaButton}
       </a>
     </div>

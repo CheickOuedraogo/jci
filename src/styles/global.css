@@ -1,28 +1,49 @@
-:root {
-  --c-ink: #081a44;
-  --c-ink-2: #0f2e5c;
-  --c-navy: #123a7a;
-  --c-blue: #1e99cf;
-  --c-blue-deep: #2479af;
-  --c-mist: #a0c9db;
-  --c-ice: #d1e5ee;
-  --c-sky: #eef6fb;
-  --c-sand: #f6f2ea;
-  --c-sand-deep: #947f6b;
-  --c-gold: #c9a24b;
-  --c-cream: #fffaf2;
-  --c-white: #ffffff;
-  --c-ink-soft: #27396b;
+/* ============================================================
+   Design tokens
+   Palette dérivée du logo (JCI Yennèga Amazones Émergentes) :
+   hue 201-223°, 5 teintes extraites de public/logo.png
+   ============================================================ */
 
-  --font-serif: "Fraunces", Georgia, "Times New Roman", serif;
-  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+:root {
+  /* --- Couleurs de marque (extraites du logo) --- */
+  --brand-navy: #0c4b7e; /* bleu nuit      */
+  --brand-azure: #058bd1; /* azur vif       */
+  --brand-cyan: #4dafcb; /* cyan           */
+  --brand-mist: #90cce5; /* bleu pâle      */
+  --brand-slate: #4c5976; /* ardoise        */
+
+  /* --- Rôles texte --- */
+  --c-ink: #0a1c3d; /* titres + texte principal   16.8:1 sur blanc */
+  --c-ink-2: #142f5c;
+  --c-ink-soft: #46598a; /* texte secondaire            6.9:1 sur blanc */
+
+  /* --- Rôles de surface --- */
+  --c-navy: var(--brand-navy); /* fond marine */
+  --c-navy-deep: #072f52;
+  --c-white: #ffffff;
+  --c-sky: #f2f9fd; /* section claire 1 */
+  --c-mist: #e6f3fb; /* section claire 2 */
+  --c-ice: #dceef8; /* séparateurs, cartes teintées */
+
+  /* --- Rôles d'accent (lisibles) --- */
+  --c-azure: var(--brand-azure); /* aplats, icônes, dégradés */
+  --c-azure-text: #096ea5; /* liens, boutons, eyebrows  5.6:1 sur blanc */
+  --c-azure-deep: #075b88; /* survol */
+  --c-cyan: var(--brand-cyan);
+  --c-cyan-lt: var(--brand-mist); /* accents sur fond marine  5.2:1 */
+
+  --c-cream: #f7fbff; /* texte adouci sur marine */
+
+  --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-sans: "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
 
   --radius-sm: 10px;
   --radius: 20px;
   --radius-lg: 32px;
-  --shadow-sm: 0 4px 14px rgba(8, 26, 68, 0.08);
-  --shadow: 0 18px 44px rgba(8, 26, 68, 0.14);
-  --shadow-lg: 0 30px 70px rgba(8, 26, 68, 0.2);
+  --shadow-sm: 0 4px 14px rgba(10, 28, 61, 0.07);
+  --shadow: 0 18px 44px rgba(10, 28, 61, 0.12);
+  --shadow-lg: 0 30px 70px rgba(10, 28, 61, 0.18);
+  --shadow-azure: 0 12px 30px rgba(5, 139, 209, 0.28);
   --container: 1180px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -78,7 +99,7 @@ p {
 }
 
 a {
-  color: var(--c-blue-deep);
+  color: var(--c-azure-text);
   text-decoration: none;
 }
 
@@ -90,6 +111,7 @@ img,
 svg {
   display: block;
   max-width: 100%;
+  height: auto;
 }
 
 ::selection {
@@ -108,8 +130,8 @@ svg {
   padding-block: clamp(3.5rem, 8vw, 7rem);
 }
 
-.section--sand {
-  background: var(--c-sand);
+.section--tint {
+  background: linear-gradient(180deg, var(--c-mist) 0%, #f4fafd 100%);
 }
 
 .section--sky {
@@ -128,7 +150,7 @@ svg {
 }
 
 .section--navy p {
-  color: rgba(255, 250, 242, 0.85);
+  color: rgba(247, 251, 255, 0.85);
 }
 
 .eyebrow {
@@ -140,23 +162,23 @@ svg {
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--c-gold);
+  color: var(--c-azure-text);
 }
 
 .eyebrow::before {
   content: "";
   width: 2.2rem;
   height: 2px;
-  background: var(--c-gold);
+  background: linear-gradient(90deg, var(--c-azure) 0%, var(--c-cyan) 100%);
   border-radius: 2px;
 }
 
 .eyebrow--light {
-  color: var(--c-mist);
+  color: var(--c-cyan-lt);
 }
 
 .eyebrow--light::before {
-  background: var(--c-gold);
+  background: linear-gradient(90deg, var(--c-cyan-lt) 0%, var(--c-cyan) 100%);
 }
 
 .center {
@@ -168,7 +190,7 @@ svg {
 }
 
 .center .eyebrow {
-  color: var(--c-gold);
+  color: var(--c-azure-text);
 }
 
 .muted {
@@ -206,33 +228,34 @@ svg {
 .btn--primary {
   background: var(--c-ink);
   color: var(--c-white);
-  box-shadow: 0 10px 24px rgba(8, 26, 68, 0.28);
+  box-shadow: 0 10px 24px rgba(10, 28, 61, 0.22);
 }
 
 .btn--primary:hover {
   background: var(--c-navy);
+  box-shadow: var(--shadow-azure);
 }
 
-.btn--gold {
-  background: var(--c-gold);
-  color: var(--c-ink);
-  box-shadow: 0 10px 24px rgba(201, 162, 75, 0.35);
+.btn--accent {
+  background: var(--c-azure-text);
+  color: var(--c-white);
+  box-shadow: var(--shadow-azure);
 }
 
-.btn--gold:hover {
-  background: #d5ac53;
-  color: var(--c-ink);
+.btn--accent:hover {
+  background: var(--c-azure-deep);
+  color: var(--c-white);
 }
 
 .btn--ghost {
-  border-color: rgba(8, 26, 68, 0.24);
+  border-color: rgba(10, 28, 61, 0.5);
   color: var(--c-ink);
-  background: transparent;
+  background: rgba(255, 255, 255, 0.6);
 }
 
 .btn--ghost:hover {
   border-color: var(--c-ink);
-  background: rgba(8, 26, 68, 0.04);
+  background: var(--c-white);
 }
 
 .btn--light {
@@ -245,12 +268,49 @@ svg {
 }
 
 .btn--outline-light {
-  border-color: rgba(255, 255, 255, 0.5);
+  border-color: rgba(255, 255, 255, 0.65);
   color: var(--c-white);
 }
 
 .btn--outline-light:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* bouton don : signature unique partout (degrade chaud + coeur + halo).
+   texte marine et non blanc : 5.03:1 au point le plus sombre du degrade. */
+.btn--donate {
+  position: relative;
+  background: linear-gradient(135deg, #f7a13a 0%, #f28c28 45%, #e07b12 100%);
+  border-color: transparent;
+  color: var(--c-ink);
+  box-shadow: 0 10px 26px rgba(224, 123, 18, 0.32);
+}
+
+/* coeur en CSS pur (mask SVG) : suit currentColor, donc aucune image */
+.btn--donate::before {
+  content: "";
+  flex: none;
+  width: 1.05em;
+  height: 1.05em;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E") center / contain no-repeat;
+  transition: transform 0.25s var(--ease);
+}
+
+.btn--donate:hover {
+  background: linear-gradient(135deg, #f9ae4e 0%, #f5901f 45%, #d9700f 100%);
+  color: var(--c-ink);
+  box-shadow: 0 14px 32px rgba(224, 123, 18, 0.44);
+}
+
+.btn--donate:hover::before {
+  transform: scale(1.18);
+}
+
+.btn--donate:focus-visible {
+  outline: 2px solid var(--c-ink);
+  outline-offset: 2px;
 }
 
 .btn--lg {
@@ -264,90 +324,198 @@ svg {
 }
 
 /* ---------- Héro ---------- */
+/* Photo pleine largeur + panneau marine opaque a bord droit en arc.
+   Le panneau est aligne sur le conteneur du site : son padding-left
+   vaut exactement le bord gauche de .container, et sa largeur est
+   elargie si besoin pour que le texte tienne dans la partie droite
+   de l'arc (qui se resserre vers le haut et le bas). */
 .hero {
+  --hero-navy-1: #21448c;
+  --hero-navy-2: #183366;
+  /* texte marine sur orange : 6.87:1 (le blanc ne donnait que 2.45:1) */
+  --hero-orange: #f28c28;
+  --hero-orange-hover: #dc7616;
+  --hero-ink: #0a1c3d;
+  /* meme formule que .container : le texte du heros s'aligne sur le site */
+  --hero-pad-left: max(
+    1.5rem,
+    calc((100vw - var(--container)) / 2 + clamp(1.25rem, 4vw, 2.5rem))
+  );
+
   position: relative;
+  isolation: isolate;
   overflow: hidden;
-  background: radial-gradient(120% 140% at 85% -10%, var(--c-sky) 0%, var(--c-white) 60%);
+  display: flex;
+  min-height: clamp(30rem, 70vh, 42rem);
 }
 
-.hero::before {
+/* photo pleine largeur, nette, sans voile : le panneau est opaque */
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: 70% center; /* le sujet reste a droite du panneau */
+}
+
+/* voile : la photo contient des hautes lumieres (jusqu'a 254) qui
+   traverseraient le panneau. On les eteint a gauche, et le voile
+   disparait completement a 72% pour laisser la photo intacte a droite. */
+.hero::after {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(rgba(30, 153, 207, 0.16) 1.5px, transparent 1.5px);
-  background-size: 26px 26px;
-  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.7), transparent 75%);
-  pointer-events: none;
+  z-index: -1;
+  background: linear-gradient(
+    100deg,
+    rgba(10, 28, 61, 0.78) 0%,
+    rgba(10, 28, 61, 0.45) 32%,
+    rgba(10, 28, 61, 0.13) 60%,
+    rgba(10, 28, 61, 0) 72%
+  );
 }
 
-.hero__inner {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 3rem;
-  align-items: center;
-  padding-block: clamp(4rem, 9vw, 8rem);
+/* le conteneur ne limite plus le panneau : il colle a gauche */
+.hero .hero__inner {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
 }
 
-@media (min-width: 980px) {
-  .hero__inner {
-    grid-template-columns: 1.05fr 0.95fr;
-  }
+/* 30rem de colonne + 2 x padding + 6.5rem de reserve pour l'arc */
+.hero__panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: min(58%, calc(30rem + 2 * var(--hero-pad-left) + 6.5rem));
+  padding-block: clamp(2.5rem, 6vw, 4.5rem);
+  padding-left: var(--hero-pad-left);
+  padding-right: clamp(3.5rem, 8vw, 6rem);
+  color: var(--c-white);
+  /* alpha en degrade : 95% sous le texte, 52% au bord de l'arc.
+     C'est la partie droite du panneau qui sert de fenetre sur la photo. */
+  background: linear-gradient(
+    100deg,
+    rgba(33, 68, 140, 0.95) 0%,
+    rgba(24, 51, 102, 0.93) 30%,
+    rgba(24, 51, 102, 0.8) 55%,
+    rgba(24, 51, 102, 0.66) 75%,
+    rgba(24, 51, 102, 0.52) 100%
+  );
+  backdrop-filter: blur(14px) saturate(125%);
+  -webkit-backdrop-filter: blur(14px) saturate(125%);
+  border-radius: 0 20% 20% 0 / 0 50% 50% 0;
+  box-shadow: 0 20px 50px rgba(4, 12, 28, 0.3);
 }
 
 .hero__title {
-  margin-bottom: 0.35em;
+  max-width: 30rem;
+  margin: 0 0 0.6em;
+  font-size: clamp(1.75rem, 2.8vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--c-white);
+  text-wrap: balance;
 }
 
 .hero__hook {
-  font-size: clamp(1.1rem, 2vw, 1.35rem);
-  color: var(--c-ink-soft);
-  max-width: 34em;
+  max-width: 30rem;
+  margin: 0;
+  font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.9rem;
-  margin-top: 2rem;
+  margin-top: 1.75rem;
 }
 
-.hero__visual {
-  position: relative;
+.hero__actions .btn {
+  border-radius: 0.75rem;
+  font-weight: 700;
 }
 
-.hero__visual img {
-  width: 100%;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-  transform: rotate(-1.5deg);
+/* bouton orange plein : texte marine, pas blanc (2.45:1 sinon) */
+.hero__actions .btn--accent {
+  background: var(--hero-orange);
+  border-color: var(--hero-orange);
+  color: var(--hero-ink);
+  box-shadow: none;
+}
+.hero__actions .btn--accent:hover {
+  background: var(--hero-orange-hover);
+  border-color: var(--hero-orange-hover);
+  color: var(--hero-ink);
 }
 
-.hero__visual::before {
-  content: "";
-  position: absolute;
-  top: -1.5rem;
-  right: -1.5rem;
-  width: 7rem;
-  height: 7rem;
-  border-radius: 50%;
-  background: radial-gradient(circle, var(--c-gold) 0%, transparent 70%);
-  opacity: 0.55;
-  z-index: -1;
+/* bouton contour */
+.hero__actions .btn--outline-light {
+  background: rgba(10, 28, 61, 0.35);
+  border: 2px solid rgba(255, 255, 255, 0.75);
+  /* bleu pale du logo : 6.63:1 au repos, 7.28:1 au survol */
+  color: var(--brand-mist);
+}
+.hero__actions .btn--outline-light:hover {
+  background: rgba(10, 28, 61, 0.5);
+  color: var(--brand-mist);
 }
 
-.hero__badge {
-  position: absolute;
-  bottom: 1.6rem;
-  left: -1.2rem;
-  background: var(--c-ink);
-  color: var(--c-white);
+/* don dans le heros : pastille vitre, pour ne pas concurrencer les deux
+   boutons du dessus. width:max-content = zone cliquable egale a la pastille. */
+.hero__actions .btn--donate {
+  flex: 0 0 auto;
+  width: max-content;
+  max-width: 100%;
+  margin-top: 0.4rem;
+  padding: 0.62rem 1.15rem;
   border-radius: 999px;
-  padding: 0.55rem 1.1rem;
-  font-size: 0.82rem;
-  font-weight: 600;
-  box-shadow: var(--shadow);
-  transform: rotate(-2deg);
+  font-size: 0.95rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: var(--c-white);
+  box-shadow: none;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.hero__actions .btn--donate:hover {
+  background: rgba(255, 255, 255, 0.17);
+  border-color: rgba(255, 255, 255, 0.52);
+  color: var(--c-white);
+  box-shadow: 0 8px 22px rgba(4, 12, 28, 0.3);
+}
+.hero__actions .btn--donate:hover::before {
+  color: #ffb454;
+}
+
+/* 640-999px : le panneau s'elargit, la photo reste lisible a droite */
+@media (max-width: 999px) {
+  .hero__panel {
+    width: min(92%, calc(30rem + 2 * var(--hero-pad-left) + 6.5rem));
+    padding-right: clamp(2rem, 6vw, 3.5rem);
+  }
+}
+
+/* < 640px : panneau empile au-dessus de la photo, plus d'arc
+   (inutile sur toute la largeur) et image pas trop haute */
+@media (max-width: 639px) {
+  .hero { min-height: 40rem; }
+  .hero .hero__inner { align-items: flex-start; }
+  .hero__bg { object-position: 62% center; }
+  .hero__panel {
+    width: 100%;
+    padding: 2.5rem 1.5rem 3rem;
+    border-radius: 0 0 2rem 2rem;
+  }
 }
 
 /* ---------- Grilles & cartes ---------- */
@@ -382,13 +550,15 @@ svg {
   border-radius: var(--radius);
   padding: 2rem;
   box-shadow: var(--shadow-sm);
-  border: 1px solid rgba(208, 224, 239, 0.65);
-  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+  border: 1px solid rgba(220, 238, 248, 0.9);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease),
+    border-color 0.3s var(--ease);
 }
 
 .card:hover {
   transform: translateY(-6px);
-  box-shadow: var(--shadow);
+  box-shadow: 0 22px 50px rgba(10, 28, 61, 0.12), 0 0 0 1px rgba(5, 139, 209, 0.18);
+  border-color: transparent;
 }
 
 .card--tint {
@@ -403,9 +573,9 @@ svg {
   height: 3.4rem;
   margin-bottom: 1.2rem;
   border-radius: 14px;
-  background: linear-gradient(140deg, var(--c-blue) 0%, var(--c-blue-deep) 100%);
+  background: linear-gradient(140deg, var(--c-azure) 0%, var(--c-navy) 100%);
   color: var(--c-white);
-  box-shadow: 0 10px 20px rgba(30, 153, 207, 0.3);
+  box-shadow: 0 10px 20px rgba(5, 139, 209, 0.32);
 }
 
 .card__tag {
@@ -413,7 +583,7 @@ svg {
   font-weight: 800;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--c-gold);
+  color: var(--c-azure-text);
   margin-bottom: 0.6rem;
 }
 
@@ -434,7 +604,7 @@ svg {
   content: "✦";
   position: absolute;
   left: 0;
-  color: var(--c-gold);
+  color: var(--c-azure-text);
   font-size: 0.85rem;
 }
 
@@ -459,7 +629,7 @@ svg {
   letter-spacing: 0.1em;
   text-transform: uppercase;
   font-size: 0.85rem;
-  color: var(--c-gold);
+  color: var(--c-azure-text);
 }
 
 /* ---------- Statistiques ---------- */
@@ -483,7 +653,7 @@ svg {
   display: block;
   font-family: var(--font-serif);
   font-size: 2.6rem;
-  color: var(--c-blue-deep);
+  color: var(--c-azure-text);
   line-height: 1;
 }
 
@@ -506,7 +676,7 @@ svg {
   padding: 0.6rem 1.1rem;
   border-radius: 999px;
   background: var(--c-white);
-  border: 1px solid rgba(8, 26, 68, 0.14);
+  border: 1px solid rgba(10, 28, 61, 0.14);
   color: var(--c-ink);
   font-weight: 600;
   font-size: 0.92rem;
@@ -548,7 +718,7 @@ svg {
   width: 100%;
   padding: 0.8rem 1rem;
   border-radius: var(--radius-sm);
-  border: 1.5px solid rgba(8, 26, 68, 0.18);
+  border: 1.5px solid rgba(10, 28, 61, 0.18);
   background: var(--c-white);
   font-family: var(--font-sans);
   font-size: 1rem;
@@ -562,10 +732,11 @@ svg {
 }
 
 .field input:focus,
+.field select:focus,
 .field textarea:focus {
   outline: none;
-  border-color: var(--c-blue);
-  box-shadow: 0 0 0 4px rgba(30, 153, 207, 0.14);
+  border-color: var(--c-azure);
+  box-shadow: 0 0 0 4px rgba(5, 139, 209, 0.14);
 }
 
 .consent {
@@ -578,7 +749,7 @@ svg {
 }
 
 .consent input {
-  accent-color: var(--c-blue-deep);
+  accent-color: var(--c-azure-text);
   margin-top: 0.2rem;
 }
 
@@ -596,6 +767,28 @@ svg {
   color: #b3261e;
 }
 
+/* quota epuise : distinct de l'erreur, ce n'est pas la faute de la visiteuse */
+.form-status[data-state="quota"] {
+  color: #8a4b00;
+}
+
+.form-status[data-state="network"] {
+  color: #b3261e;
+}
+
+.form-status__link {
+  color: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  white-space: nowrap;
+}
+
+.form-status__link:hover,
+.form-status__link:focus-visible {
+  color: var(--c-azure-text);
+}
+
 .form-notice {
   padding: 0.9rem 1.1rem;
   border-radius: var(--radius-sm);
@@ -605,45 +798,6 @@ svg {
   font-size: 0.92rem;
 }
 
-/* ---------- Modal ---------- */
-.dialog {
-  position: fixed;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  background: rgba(8, 26, 68, 0.55);
-  padding: 1.5rem;
-  z-index: 60;
-}
-
-.dialog[hidden] {
-  display: none;
-}
-
-.dialog__panel {
-  width: 100%;
-  max-width: 30rem;
-  background: var(--c-white);
-  border-radius: var(--radius-lg);
-  padding: 2rem;
-  box-shadow: var(--shadow-lg);
-  position: relative;
-}
-
-.dialog__close {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  border: 0;
-  background: var(--c-sky);
-  color: var(--c-ink);
-  width: 2.2rem;
-  height: 2.2rem;
-  border-radius: 50%;
-  font-size: 1.1rem;
-  cursor: pointer;
-}
-
 /* ---------- Header / Footer ---------- */
 .site-header {
   position: sticky;
@@ -651,7 +805,7 @@ svg {
   z-index: 50;
   background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(8, 26, 68, 0.08);
+  border-bottom: 1px solid rgba(10, 28, 61, 0.08);
 }
 
 .header-inner {
@@ -672,7 +826,6 @@ svg {
 .brand img {
   height: 2.4rem;
   width: auto;
-  border-radius: 6px;
 }
 
 .brand-text {
@@ -730,7 +883,7 @@ svg {
 .nav-desktop a:hover,
 .nav-desktop a[aria-current="page"] {
   background: var(--c-sky);
-  color: var(--c-blue-deep);
+  color: var(--c-azure-text);
 }
 
 .nav-mobile a {
@@ -743,7 +896,7 @@ svg {
 
 .nav-mobile a[aria-current="page"] {
   background: var(--c-sky);
-  color: var(--c-blue-deep);
+  color: var(--c-azure-text);
 }
 
 .header-actions {
@@ -758,7 +911,7 @@ svg {
   letter-spacing: 0.08em;
   padding: 0.5rem 0.7rem;
   border-radius: 999px;
-  border: 1.5px solid rgba(8, 26, 68, 0.2);
+  border: 1.5px solid rgba(10, 28, 61, 0.2);
   color: var(--c-ink);
 }
 
@@ -772,7 +925,7 @@ svg {
   width: 2.6rem;
   height: 2.6rem;
   border-radius: 12px;
-  border: 1.5px solid rgba(8, 26, 68, 0.16);
+  border: 1.5px solid rgba(10, 28, 61, 0.16);
   background: var(--c-white);
   cursor: pointer;
 }
@@ -800,7 +953,7 @@ svg {
 }
 
 .site-footer p {
-  color: rgba(255, 250, 242, 0.8);
+  color: rgba(247, 251, 255, 0.8);
 }
 
 .footer-grid {
@@ -811,19 +964,19 @@ svg {
 
 @media (min-width: 880px) {
   .footer-grid {
-    grid-template-columns: 1.4fr 0.7fr 1fr;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 3rem;
   }
 }
 
 .site-footer h4 {
-  color: var(--c-white);
   font-family: var(--font-sans);
   font-size: 0.85rem;
   font-weight: 800;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   margin: 0 0 1rem;
-  color: var(--c-mist);
+  color: var(--c-cyan-lt);
 }
 
 .footer-links {
@@ -841,7 +994,7 @@ svg {
 
 .footer-links a:hover {
   opacity: 1;
-  color: var(--c-mist);
+  color: var(--c-cyan-lt);
 }
 
 .footer-bottom {
@@ -889,7 +1042,7 @@ svg {
   padding: 0.9rem 1.1rem;
   border-radius: var(--radius-sm);
   background: var(--c-white);
-  border: 1px solid rgba(8, 26, 68, 0.08);
+  border: 1px solid rgba(10, 28, 61, 0.08);
   color: var(--c-ink);
 }
 
@@ -897,7 +1050,7 @@ svg {
   content: counter(creed, decimal-leading-zero);
   font-family: var(--font-serif);
   font-size: 1.1rem;
-  color: var(--c-gold);
+  color: var(--c-azure-text);
   font-weight: 600;
 }
 
@@ -935,7 +1088,7 @@ svg {
 }
 
 :focus-visible {
-  outline: 3px solid var(--c-blue);
+  outline: 3px solid var(--c-azure);
   outline-offset: 2px;
 }
 

@@ -8,14 +8,13 @@ import { SITE, withBase } from "../lib/site.config";
 const lang = "fr";
 const t = COPY[lang];
 const current = "/devenir-amazone";
-const description = t.join.intro;
 ---
 
 <Base
   lang={lang}
   current={current}
-  title={`${t.join.title} — JCI Yennèga Amazones Émergentes`}
-  description={description}
+  title={t.seo.join.title}
+  description={t.seo.join.description}
 >
   <section class="page-hero">
     <div class="container">
@@ -42,7 +41,9 @@ const description = t.join.intro;
           <p class="card__tag">{t.join.feeLabel}</p>
           <strong class="fee-amount">{t.join.feeAmount}</strong>
           <p class="muted">{t.join.feeNote}</p>
-          <DonationButton lang={lang} label={t.join.donateAlt} classes="btn btn--gold" />
+          {/* Paiement en ligne désactivé temporairement :
+          <DonationButton lang={lang} label={t.join.donateAlt} classes="btn btn--donate" />
+          */}
           <a class="whatsapp-link" href={SITE.whatsapp} target="_blank" rel="noopener">
             {t.join.whatsappAlt}
           </a>
@@ -78,7 +79,7 @@ const description = t.join.intro;
     content: "✓";
     position: absolute;
     left: 0;
-    color: var(--c-blue-deep);
+    color: var(--c-azure-text);
     font-weight: 800;
   }
 
@@ -95,6 +96,6 @@ const description = t.join.intro;
     display: inline-block;
     margin-top: 0.9rem;
     font-weight: 700;
-    color: var(--c-blue-deep);
+    color: var(--c-azure-text);
   }
 </style>

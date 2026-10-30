@@ -1,0 +1,366 @@
+---
+import { FORM_ACCESS_KEY, SITE, MOBILE_MONEY, SUGGESTED_AMOUNTS, MIN_DONATION_AMOUNT } from "../lib/site.config";
+import { COPY } from "../data/content";
+import MobileMoneyBlock from "./MobileMoneyBlock.astro";
+
+const { lang = "fr" } = Astro.props;
+const t = COPY[lang].contact;
+
+const enabled = FORM_ACCESS_KEY !== "PLEASE_SET_YOUR_WEB3FORMS_ACCESS_KEY";
+
+/* on n'offre que les operateurs dont le numero est reellement renseigne :
+   choisir un operateur sans numero derriere garantit un don bloque */
+const operators = MOBILE_MONEY.filter((a) => a.number.trim() !== "");
+
+const fmt = (n: number) => n.toLocaleString("fr-FR").replace(/ | /g, " ");
+---
+
+<div class="declaration" data-declaration-root>
+  {!enabled && <p class="form-notice">{t.declareNotConfigured}</p>}
+
+  <form
+    class="declaration__form"
+    data-declaration-form
+    action="https://api.web3forms.com/submit"
+    method="POST"
+    data-sending={t.declareSending}
+    data-error={t.declareError}
+    data-error-quota={t.declareErrorQuota}
+    data-error-network={t.declareErrorNetwork}
+    data-whatsapp={SITE.whatsapp}
+    data-whatsapp-label={t.whatsappButton}
+  >
+    <input type="hidden" name="access_key" value={FORM_ACCESS_KEY} />
+    <input type="hidden" name="subject" value="Don déclaré — JCI Yennèga Amazones Émergentes" />
+    <input type="hidden" name="from_name" value="Site des Amazones Émergentes" />
+    <input
+      type="checkbox"
+      name="botcheck"
+      style="display: none;"
+      tabindex="-1"
+      aria-hidden="true"
+      autocomplete="off"
+    />
+    <input type="hidden" name="website" value="" autocomplete="off" />
+
+    <h3 class="declaration__title">{t.declareTitle}</h3>
+    <p class="declaration__intro">{t.declareIntro}</p>
+
+    <div class="field">
+      <label for="donor_name">{t.declareFields.name} *</label>
+      <input id="donor_name" name="Nom" type="text" required autocomplete="name" />
+    </div>
+
+    <div class="field">
+      <label for="donor_amount">
+        {t.declareFields.amount} ({t.declareMinAmount} {fmt(MIN_DONATION_AMOUNT)} FCFA) *
+      </label>
+      <input
+        id="donor_amount"
+        name="Montant"
+        type="number"
+        inputmode="numeric"
+        min={MIN_DONATION_AMOUNT}
+        step={100}
+        placeholder="1000"
+        required
+      />
+    </div>
+
+    {
+      SUGGESTED_AMOUNTS.length > 0 && (
+        <div class="declaration__chips" role="group" aria-label={t.declareFields.amount}>
+          {SUGGESTED_AMOUNTS.map((n) => (
+            <button
+              type="button"
+              class="declaration__chip"
+              data-amount={n}
+              data-fmt={`${fmt(n)} FCFA`}
+            >
+              {fmt(n)} FCFA
+            </button>
+          ))}
+        </div>
+      )
+    }
+
+    {
+      operators.length > 1 && (
+        <div class="field">
+          <label for="donor_operator">{t.declareFields.operator} *</label>
+          <select id="donor_operator" name="Opérateur" required>
+            {operators.map((a) => (
+              <option value={a.id}>{a.label}</option>
+            ))}
+          </select>
+        </div>
+      )
+    }
+
+    {operators.length === 1 && <input type="hidden" name="Opérateur" value={operators[0].id} />}
+
+    <div class="field">
+      <label for="donor_phone">{t.declareFields.phone}</label>
+      <input id="donor_phone" name="Téléphone" type="tel" inputmode="tel" autocomplete="tel" />
+    </div>
+
+    <div class="field">
+      <label for="donor_message">{t.declareFields.message}</label>
+      <textarea id="donor_message" name="Message" rows="2"></textarea>
+    </div>
+
+    <button class="btn btn--primary btn--lg" type="submit" data-submit disabled={!enabled}>
+      {t.declareSubmit}
+    </button>
+
+    <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+  </form>
+
+  {/* etape 2 : masquee tant que la declaration n'est pas partie.
+      Le choix d'operateur est reporte ici pour n'afficher que le bon numero.
+      tabindex=-1 pour que le focus puisse y etre conduit apres l'envoi ;
+      le succes est annonce ici, et non dans le statut du formulaire, que
+      showPayStep vient de masquer. */}
+  <div class="declaration__pay" data-declaration-pay tabindex="-1" hidden>
+    <p class="declaration__success" role="status" aria-live="polite">
+      <strong class="declaration__success-title">{t.declareSuccess}</strong>
+      <span>{t.declareSuccessHint}</span>
+    </p>
+    <MobileMoneyBlock lang={lang} />
+    <button type="button" class="declaration__reset" data-declaration-reset>
+      {lang === "fr" ? "Modifier ma déclaration" : "Edit my declaration"}
+    </button>
+  </div>
+</div>
+
+<style>
+  .declaration {
+    text-align: left;
+  }
+
+  .declaration__title {
+    margin: 0 0 0.3rem;
+    font-size: 1.12rem;
+    color: var(--c-ink);
+  }
+
+  .declaration__intro {
+    margin: 0 0 1.1rem;
+    font-size: 0.9rem;
+    color: var(--c-ink);
+    opacity: 0.82;
+  }
+
+  .declaration__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin: -0.55rem 0 1.15rem;
+  }
+
+  /* ce ne sont pas des boutons de paiement : ils remplissent le champ
+     montant, le don reste libre */
+  .declaration__chip {
+    padding: 0.32rem 0.7rem;
+    border-radius: 999px;
+    background: var(--c-sand);
+    border: 1px solid rgba(201, 162, 75, 0.45);
+    font-family: var(--font-sans);
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--c-ink);
+    font-variant-numeric: tabular-nums;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .declaration__chip:hover {
+    background: var(--c-azure);
+    border-color: var(--c-azure);
+    color: var(--c-white);
+    transform: translateY(-1px);
+  }
+
+  .declaration__chip:focus-visible {
+    outline: 3px solid var(--c-azure);
+    outline-offset: 2px;
+  }
+
+  .declaration__success {
+    display: grid;
+    gap: 0.3rem;
+    margin: 0 0 1rem;
+    padding: 0.85rem 1.1rem;
+    border-radius: var(--radius-sm);
+    background: rgba(23, 114, 69, 0.12);
+    border: 1px solid rgba(23, 114, 69, 0.3);
+    font-size: 0.93rem;
+    color: var(--c-ink);
+  }
+
+  .declaration__success:focus-visible {
+    outline: 3px solid var(--c-azure);
+    outline-offset: 2px;
+  }
+
+  .declaration__success-title {
+    color: #177245;
+    font-weight: 800;
+  }
+
+  .declaration__reset {
+    margin-top: 0.9rem;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-family: var(--font-sans);
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--c-azure-text);
+    text-decoration: underline;
+    text-underline-offset: 0.18em;
+    cursor: pointer;
+  }
+
+  .declaration__reset:hover {
+    color: var(--c-ink);
+  }
+
+  button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+</style>
+
+<script>
+  /* meme contrat que le formulaire de candidature : Web3Forms repond 200 +
+     {success:false} sur un quota epuise, et 429/402 selon la situation. */
+  const QUOTA_RE = /(limit|quota|exceed|exhaust|too many|capacity|satur)/i;
+  const TIMEOUT_MS = 20000;
+
+  const roots = document.querySelectorAll<HTMLElement>("[data-declaration-root]");
+
+  roots.forEach((root) => {
+    const form = root.querySelector<HTMLFormElement>("[data-declaration-form]");
+    const status = root.querySelector<HTMLElement>("[data-form-status]");
+    const submitBtn = root.querySelector<HTMLButtonElement>("[data-submit]");
+    const payStep = root.querySelector<HTMLElement>("[data-declaration-pay]");
+    const mmBlock = root.querySelector<HTMLElement>("[data-mm-block]");
+    const resetBtn = root.querySelector<HTMLButtonElement>("[data-declaration-reset]");
+    if (!form || !status || !submitBtn) return;
+
+    const d = form.dataset;
+
+    const render = (state: string, text: string, offerWhatsApp: boolean) => {
+      status.dataset.state = state;
+      status.textContent = text;
+      if (!offerWhatsApp) {
+        status.querySelector("a")?.remove();
+        return;
+      }
+      if (status.querySelector("a")) return;
+      const link = document.createElement("a");
+      link.className = "form-status__link";
+      link.href = d.whatsapp ?? "";
+      link.target = "_blank";
+      link.rel = "noopener";
+      link.textContent = d.whatsappLabel ?? "";
+      status.append(" ", link);
+    };
+
+    const showPayStep = (operatorId: string) => {
+      if (mmBlock) mmBlock.setAttribute("data-active-operator", operatorId);
+      form.hidden = true;
+      if (payStep) {
+        payStep.hidden = false;
+        // le numero est l'information la plus utile : on y donne le focus
+        // pour que la lecture vocale et le scroll commencent au bon endroit
+        payStep.scrollIntoView({ block: "nearest" });
+        payStep.focus({ preventScroll: true });
+      }
+    };
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const bot = form.querySelector<HTMLInputElement>('input[name="botcheck"]');
+      if (bot?.checked) return;
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      // cle Web3Forms non configuree : le bouton est desactive a la
+      // construction, mais requestSubmit() contourne l'attribut disabled
+      if (submitBtn.disabled) return;
+
+      // requestSubmit() ignore un bouton desactive : on memorise l'etat reel
+      // pour le restaurer, sinon le finally reactive le bouton a jamais
+      const wasDisabled = submitBtn.disabled;
+      const originalLabel = submitBtn.textContent ?? "";
+      submitBtn.disabled = true;
+      submitBtn.textContent = d.sending ?? "";
+      render("sending", "", false);
+
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+
+      try {
+        const response = await fetch(form.action, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { Accept: "application/json" },
+          signal: controller.signal,
+        });
+
+        const payload = await response.json().catch(() => null);
+        const message = typeof payload?.message === "string" ? payload.message : "";
+
+        if (response.status === 429 || QUOTA_RE.test(message)) {
+          render("quota", d.errorQuota ?? d.error ?? "", true);
+          return;
+        }
+        if (!response.ok) {
+          render("error", d.error ?? "", true);
+          return;
+        }
+        if (!payload?.success) {
+          render(QUOTA_RE.test(message) ? "quota" : "error",
+                 QUOTA_RE.test(message) ? d.errorQuota ?? d.error ?? "" : d.error ?? "", true);
+          return;
+        }
+
+        // le statut du formulaire est sur le point d'etre masque : le
+        // message de succes vit dans l'etape 2, qui s'annonce via aria-live
+        const operator = form.querySelector<HTMLSelectElement>('[name="Opérateur"]');
+        const operatorId = operator?.value || operator?.querySelector("option")?.value || "";
+        showPayStep(operatorId);
+        form.reset();
+      } catch {
+        render("network", d.errorNetwork ?? d.error ?? "", true);
+      } finally {
+        clearTimeout(timer);
+        submitBtn.disabled = wasDisabled;
+        submitBtn.textContent = originalLabel;
+      }
+    });
+
+    // les puces ne font que pre-remplir le champ : le don reste libre
+    root.querySelectorAll<HTMLButtonElement>("[data-amount]").forEach((chip) => {
+      chip.addEventListener("click", () => {
+        const input = form.querySelector<HTMLInputElement>("[name='Montant']");
+        if (!input) return;
+        input.value = chip.dataset.amount ?? "";
+        input.focus();
+      });
+    });
+
+    resetBtn?.addEventListener("click", () => {
+      if (payStep) payStep.hidden = true;
+      form.hidden = false;
+      status.textContent = "";
+      delete status.dataset.state;
+      form.querySelector<HTMLInputElement>("[name='Nom']")?.focus();
+    });
+  });
+</script>

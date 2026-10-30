@@ -1,0 +1,7 @@
+# robots.txt for https://jciyennega.org
+User-agent: *
+Allow: /
+
+# Host & Sitemaps
+Host: https://jciyennega.org
+Sitemap: https://jciyennega.org/sitemap-index.xml

@@ -1,0 +1,178 @@
+---
+import { SITE, MOBILE_MONEY } from "../lib/site.config";
+import { COPY } from "../data/content";
+import DonationDeclarationForm from "./DonationDeclarationForm.astro";
+
+const { lang = "fr" } = Astro.props;
+const t = COPY[lang].contact;
+const hasMobileMoney = MOBILE_MONEY.some((a) => a.number.trim() !== "");
+---
+
+{/* Rendu une seule fois, hors de tout ancetre portant backdrop-filter /
+    transform : <dialog> + showModal() place la boite dans le top layer,
+    donc sa position ne depend plus du bloc conteneur. */}
+<dialog class="donation-dialog" data-donate-dialog aria-labelledby="donation-title">
+  <button
+    type="button"
+    class="donation-dialog__close"
+    data-donate-close
+    aria-label={lang === "fr" ? "Fermer" : "Close"}
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+
+  <p class="eyebrow">
+    {hasMobileMoney ? t.donateEyebrowMm : lang === "fr" ? "CinetPay" : "Secure payment"}
+  </p>
+  <h2 id="donation-title" class="donation-dialog__title">{t.donateTitle}</h2>
+  <p class="donation-dialog__body">{t.donateBody}</p>
+
+  {
+    hasMobileMoney ? (
+      <DonationDeclarationForm lang={lang} />
+    ) : (
+      <p class="form-notice">{t.formPreparing}</p>
+    )
+  }
+
+  <a class="btn btn--accent" href={SITE.whatsapp} target="_blank" rel="noopener">
+    {t.whatsappButton}
+  </a>
+</dialog>
+
+<style>
+  .donation-dialog {
+    /* on ne pose PAS display sur l'element de base : le UA stylesheet
+       hide un <dialog> sans [open], et l'ecraser le rendrait visible. */
+    border: 0;
+    padding: 2rem;
+    width: min(100% - 2rem, 30rem);
+    max-width: none;
+    max-height: calc(100dvh - 2.5rem);
+    border-radius: var(--radius-lg);
+    /* couleur explicite : le modal ne doit plus heriter du blanc du
+       panneau du heros, qui rendait le texte invisible sur fond blanc */
+    background: var(--c-white);
+    color: var(--c-ink);
+    box-shadow: var(--shadow-lg);
+    overflow-y: auto;
+  }
+
+  .donation-dialog::backdrop {
+    background: rgba(10, 28, 61, 0);
+    transition: background 0.22s ease, overlay 0.22s allow-discrete, display 0.22s allow-discrete;
+  }
+
+  .donation-dialog[open]::backdrop {
+    background: rgba(10, 28, 61, 0.55);
+  }
+
+  @starting-style {
+    .donation-dialog[open]::backdrop {
+      background: rgba(10, 28, 61, 0);
+    }
+  }
+
+  .donation-dialog[open] {
+    opacity: 1;
+    translate: 0 0;
+    scale: 1;
+  }
+
+  .donation-dialog {
+    opacity: 0;
+    translate: 0 10px;
+    scale: 0.98;
+    transition:
+      opacity 0.22s ease,
+      translate 0.22s ease,
+      scale 0.22s ease,
+      overlay 0.22s allow-discrete,
+      display 0.22s allow-discrete;
+  }
+
+  @starting-style {
+    .donation-dialog[open] {
+      opacity: 0;
+      translate: 0 10px;
+      scale: 0.98;
+    }
+  }
+
+  .donation-dialog__close {
+    position: absolute;
+    top: 0.85rem;
+    right: 0.85rem;
+    display: grid;
+    place-items: center;
+    border: 0;
+    background: var(--c-sky);
+    color: var(--c-ink);
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .donation-dialog__close:hover {
+    background: var(--c-azure);
+    color: var(--c-white);
+  }
+
+  .donation-dialog__title {
+    margin: 0 0 0.5rem;
+    font-size: 1.5rem;
+    color: var(--c-ink);
+  }
+
+  .donation-dialog__body {
+    margin: 0 0 1.25rem;
+    color: var(--c-ink);
+  }
+
+  .donation-dialog .eyebrow {
+    margin-bottom: 0.35rem;
+  }
+
+  .donation-dialog .form-notice {
+    margin: 0 0 1.25rem;
+  }
+</style>
+
+<script>
+  const dialog = document.querySelector("[data-donate-dialog]") as HTMLDialogElement | null;
+  const triggers = document.querySelectorAll<HTMLButtonElement>("[data-donate-trigger]");
+
+  if (dialog && triggers.length > 0) {
+    let lastTrigger: HTMLButtonElement | null = null;
+
+    const close = () => {
+      if (dialog.open) dialog.close();
+    };
+
+    triggers.forEach((trigger) => {
+      trigger.addEventListener("click", () => {
+        if (dialog.open) return;
+        lastTrigger = trigger;
+        document.documentElement.style.overflow = "hidden";
+        dialog.showModal();
+        dialog.querySelector<HTMLElement>("[data-donate-close]")?.focus();
+      });
+    });
+
+    dialog.querySelector("[data-donate-close]")?.addEventListener("click", close);
+
+    // sur un <dialog> modal, un clic sur le backdrop cible l'element <dialog>
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) close();
+    });
+
+    // couvre la fermeture au clavier (Echap) et par .close()
+    dialog.addEventListener("close", () => {
+      document.documentElement.style.overflow = "";
+      lastTrigger?.focus();
+    });
+  }
+</script>
