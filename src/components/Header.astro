@@ -46,7 +46,7 @@ const navLabel = lang === "fr" ? "Navigation principale" : "Primary navigation";
       <a class="lang-switch" href={altHref} hreflang={alt}>
         {alt.toUpperCase()}
       </a>
-      <a class="btn btn--primary btn--sm" href={joinHref}>
+      <a class="btn btn--primary btn--sm header-join-btn" href={joinHref}>
         {t.home.buttons.join}
       </a>
       <button
@@ -80,6 +80,15 @@ const navLabel = lang === "fr" ? "Navigation principale" : "Primary navigation";
           </li>
         ))
       }
+      <li style="margin-top: 0.8rem; padding-inline: 0.6rem;">
+        <a
+          class="btn btn--accent"
+          style="width: 100%; justify-content: center; color: #ffffff !important; background: var(--c-azure-text) !important; font-weight: 700;"
+          href={joinHref}
+        >
+          {t.home.buttons.join}
+        </a>
+      </li>
     </ul>
   </nav>
 </header>
